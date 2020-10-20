@@ -1,13 +1,13 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
 import { SimpleLineIcons, Feather } from "@expo/vector-icons"; 
-import DicoverScreen from "../screens/DicoverScreen";
-import ProfileStack from "./ProfileStack";
+import DicoverScreen from "../screens/DicoverScreen"; 
 import { colors } from "../resources/colors";
+import ProfileStacks from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
-export default function MainTab() {
+export default function MainTabs() {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -26,7 +26,7 @@ export default function MainTab() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileStack}
+        component={ProfileStacks}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return <Feather name="user" size={size} color={color} />;

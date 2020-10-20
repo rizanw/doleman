@@ -2,27 +2,34 @@ import React from "react";
 import MapView from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Button from "../components/Button";
+import { styles } from "../resources/styles";
+import { NavigationProp } from "@react-navigation/native";
 
-export default class ProfileScreen extends React.Component {
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
+
+export default class ProfileScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 14, marginTop: 28}}>Silakan masuk atau mendaftar</Text>
+        <Text style={{ fontSize: 14, marginTop: 28 }}>
+          Silakan masuk atau mendaftar
+        </Text>
         <View
           style={{ flexDirection: "row", marginHorizontal: 12, marginTop: 24 }}
         >
-          <Button label="masuk" />
-          <Button label="daftar" type="outline" />
+          <Button
+            label="masuk"
+            onPress={() => this.props.navigation.navigate("Login")}
+          />
+          <Button
+            label="daftar"
+            type="outline"
+            onPress={() => this.props.navigation.navigate("Register")}
+          />
         </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-});

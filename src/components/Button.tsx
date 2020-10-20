@@ -5,6 +5,7 @@ import { styles } from "../resources/styles";
 interface Props {
   label: string;
   type?: "contained" | "outline" | "text";
+  onPress?: () => void;
 }
 
 class Button extends Component<Props> {
@@ -20,6 +21,7 @@ class Button extends Component<Props> {
               ? styles.buttonOutlined
               : styles.buttonContained,
           ]}
+          onPress={this.props.onPress}
         >
           <Text
             style={[

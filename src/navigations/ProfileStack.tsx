@@ -2,10 +2,9 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../screens/ProfileScreen";
 import { colors } from "../resources/colors";
-
 const Stack = createStackNavigator();
 
-export default function ProfileStack() {
+export default function ProfileStacks() {
   return (
     <Stack.Navigator
       screenOptions={{

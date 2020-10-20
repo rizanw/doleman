@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-import MainTab from "./navigations/MainTab";
+import MainStacks from "./navigations/MainStack";
 
 class Doleman extends React.Component {
   render() {
@@ -10,7 +10,7 @@ class Doleman extends React.Component {
       <View style={{ flex: 1 }}>
         <StatusBar style="auto" />
         <NavigationContainer>
-          <MainTab />
+          <MainStacks />
         </NavigationContainer>
       </View>
     );
