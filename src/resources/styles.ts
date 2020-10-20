@@ -20,6 +20,8 @@ export const styles = StyleSheet.create({
   },
   buttonContained: {
     backgroundColor: colors.BITTERSWEET,
+  },
+  buttonTextContained: {
     color: colors.WHITE,
   },
   buttonOutlined: {
@@ -38,8 +40,8 @@ export const styles = StyleSheet.create({
   loginTitle: {
     color: colors.BITTERSWEET,
     fontSize: 28,
-    fontWeight: "bold", 
-    marginTop: 12
+    fontWeight: "bold",
+    marginTop: 12,
   },
   textInputContainer: {
     flexDirection: "row",
@@ -56,5 +58,78 @@ export const styles = StyleSheet.create({
     paddingLeft: 12,
     fontSize: 16,
   },
-  
+
+  buttonMenu: {
+    backgroundColor: "#F7F7F7",
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  buttonMenuLabel: {
+    marginLeft: 12,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.LIGHT_ORANGE,
+  },
+  buttonMenuText: {
+    fontSize: 16,
+    color: colors.LIGHT_ORANGE,
+  },
+
+  ticketCard: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 8,
+    flexDirection: "row",
+  },
+  ticketCardRightSide: {
+    padding: 16,
+  },
+  ticketCardTextTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.CHARCOAL,
+  },
+  ticketCardTextSubTitle: {
+    fontSize: 12,
+    color: colors.GREY,
+    marginBottom: 2,
+  },
+  ticketCardLeftSide: {
+    backgroundColor: colors.LIGHT_ORANGE,
+    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 8,
+  },
+
+  ticketTitle: {
+    fontSize: 20,
+    color: colors.BLUE_DEEP,
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 16,
+  },
+  ticketCode: {
+    fontSize: 18,
+    color: colors.BLUE_DEEP,
+    fontWeight: "bold",
+  },
+  ticketTitleCode: {
+    fontSize: 12,
+    color: colors.GREY,
+  },
+  backgroundGrey: {
+    backgroundColor: "#F7F7F7",
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  backgroundGreyText: {
+    color: colors.GREY,
+    fontSize: 12,
+    marginBottom: 4,
+  },
 });
