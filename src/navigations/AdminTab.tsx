@@ -1,6 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
 import { Image, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { colors } from "../resources/colors";
 import { styles } from "../resources/styles";
 import DirectScreen from "../screens/admin/DirectScreen";
@@ -10,13 +11,15 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function AdminTabs() {
   return (
-    <>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <Image
         source={require("../../assets/jatim1.jpg")}
-        style={{ width: "100%", height: 250, resizeMode: "cover" }}
+        style={{ width: "100%", height: 200, resizeMode: "cover" }}
       />
       <View style={{ backgroundColor: "white" }}>
-        <Text style={[styles.ticketTitle]}>Jawa Timur Park I</Text>
+        <Text style={[styles.ticketTitle, { marginVertical: 10 }]}>
+          Jawa Timur Park I
+        </Text>
         <View style={[styles.backgroundGrey, { marginHorizontal: 0 }]}>
           <Text style={styles.backgroundGreyText}>
             Statistik Hari Ini ( Minggu, 11 Oct 2020)
@@ -70,6 +73,6 @@ export default function AdminTabs() {
         <Tab.Screen name="Direct" component={DirectScreen} options={{}} />
         <Tab.Screen name="Online" component={OnlineScreen} />
       </Tab.Navigator>
-    </>
+    </ScrollView>
   );
 }

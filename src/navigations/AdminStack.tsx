@@ -10,7 +10,7 @@ export default function AdminStacks() {
     <Stack.Navigator
       screenOptions={{
         headerBackTitleVisible: false,
-        headerTintColor: colors.BLUE_DEEP
+        headerTintColor: colors.BLUE_DEEP,
       }}
     >
       <Stack.Screen
@@ -18,7 +18,11 @@ export default function AdminStacks() {
         component={AdminTabs}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Camera" component={CameraScreen} options={{}} />
+      <Stack.Screen
+        name="Camera"
+        component={CameraScreen}
+        options={{ title: "Scan QR" }}
+      />
     </Stack.Navigator>
   );
 }
