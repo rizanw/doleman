@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
@@ -7,20 +7,24 @@ import { styles } from "../../resources/styles";
 class RegisterScreen extends React.Component {
   state = {};
   render() {
+
     return (
-      <View style={[styles.container]}>
+      <KeyboardAvoidingView
+        style={[styles.container]}
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
         >
-          <TextField placeholder="nama lengkap" />
-          <TextField placeholder="email" />
+          <TextField placeholder="nama lengkap" autoCompleteType="name" />
+          <TextField placeholder="email" autoCompleteType="email" />
           <TextField placeholder="password" secureTextEntry={true} />
           <TextField placeholder="konfirmasi password" secureTextEntry={true} />
         </View>
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
           <Button label="daftar" />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -18,7 +18,7 @@ export default class ProfileScreen extends React.Component<Props> {
   };
 
   componentDidMount() {
-    console.log(this.props.route.name)
+    console.log(this.props.route.name);
     if (this.props.route.name == "Profile") {
       this.loggingIn();
     }
@@ -101,14 +101,17 @@ export default class ProfileScreen extends React.Component<Props> {
               />
               <Text style={styles.buttonMenuLabel}>Tiket saya</Text>
               <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <Text style={styles.buttonMenuText}>0</Text>
+                <Text style={styles.buttonMenuText}>1</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonMenu}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("MyPlaces")}
+              style={styles.buttonMenu}
+            >
               <AntDesign name="heart" size={24} color={colors.LIGHT_ORANGE} />
               <Text style={styles.buttonMenuLabel}>Tempat Favorit</Text>
               <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <Text style={styles.buttonMenuText}>0</Text>
+                <Text style={styles.buttonMenuText}>1</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -126,6 +129,5 @@ export default class ProfileScreen extends React.Component<Props> {
   }
 }
 
-
-// TODO : Masalah form > auto fokus keyboard 
-// sebagian teks hilang? 
+// TODO : Masalah form > auto fokus keyboard
+// sebagian teks hilang?

@@ -4,6 +4,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import { colors } from "../resources/colors";
 import TicketListScreen from "../screens/myticket/TicketListScreen";
 import TicketDetailScreen from "../screens/myticket/TicketDetailScreen";
+import PlaceListScreen from "../screens/myplace/PlaceListScreen";
 const Stack = createStackNavigator();
 
 export default function ProfileStacks() {
@@ -21,18 +22,23 @@ export default function ProfileStacks() {
       <Stack.Screen
         name="MyTickets"
         component={TicketListScreen}
-        options={{}}
+        options={{
+          title: "Tiket Saya"
+        }}
       />
       <Stack.Screen
         name="MyTicketDetail"
         component={TicketDetailScreen}
         options={{
           headerTintColor: "white",
-          headerStyle:{shadowColor: "black", },
+          headerStyle: { shadowColor: "black" },
           headerTitle: "",
           headerTransparent: true,
         }}
       />
+      <Stack.Screen name="MyPlaces" component={PlaceListScreen} options={{
+        title:"Tempat Favorit"
+      }} />
     </Stack.Navigator>
   );
 }

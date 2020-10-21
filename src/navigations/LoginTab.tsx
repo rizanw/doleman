@@ -2,14 +2,14 @@ import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
-import { Image, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { colors } from "../resources/colors";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function LoginTabs() {
   return (
-    <>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <View
         style={{
           alignItems: "center",
@@ -48,6 +48,6 @@ export default function LoginTabs() {
           options={{ tabBarLabel: "Daftar" }}
         />
       </Tab.Navigator>
-    </>
+    </ScrollView>
   );
 }

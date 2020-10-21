@@ -88,6 +88,7 @@ export const styles = StyleSheet.create({
   },
   ticketCardRightSide: {
     padding: 16,
+    flex: 1,
   },
   ticketCardTextTitle: {
     fontSize: 16,

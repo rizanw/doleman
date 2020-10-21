@@ -3,6 +3,7 @@ import MapView from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as Location from "expo-location";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const renderContent = () => (
   <View
@@ -41,13 +42,17 @@ export default class DicoverScreen extends React.Component {
       this.setState({ errorMsg: "Permission to access location was denied" });
     }
 
+    await this._getCurrentLocation();
+  }
+
+  async _getCurrentLocation() {
     let location = await Location.getCurrentPositionAsync({});
     this.setState({
       mapRegion: {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.08,
-        longitudeDelta: 0.03,
+        longitudeDelta: 0.04,
       },
     });
   }
@@ -74,10 +79,14 @@ export default class DicoverScreen extends React.Component {
           onRegionChange={this._handleMapRegionChange.bind(this)}
         />
         <View style={{ position: "absolute", top: 24, right: 4 }}>
-          <Image
-            source={require("../../assets/doleman.png")}
-            style={{ width: 100, height: 100, resizeMode: "contain" }}
-          />
+          <TouchableOpacity
+            onPress={async () => await this._getCurrentLocation()}
+          >
+            <Image
+              source={require("../../assets/doleman.png")}
+              style={{ width: 100, height: 100, resizeMode: "contain" }}
+            />
+          </TouchableOpacity>
           <Text>{text}</Text>
         </View>
         <BottomSheet

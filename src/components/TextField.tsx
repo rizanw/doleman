@@ -1,13 +1,21 @@
-import React, { Component } from "react";
-import { TextInput, View } from "react-native";
+import React, { Component, LegacyRef } from "react";
+import {
+  NativeSyntheticEvent,
+  Text,
+  TextInput,
+  TextInputSubmitEditingEventData,
+  View,
+} from "react-native";
 import { styles } from "../resources/styles";
 
-interface Props {
+type Props = React.ComponentPropsWithRef<typeof TextInput> & {
   placeholder?: string;
   value?: string;
   onChangeText?: (text: string) => void;
   secureTextEntry?: boolean;
-}
+  autoCompleteType?: "email" | "name" | "off";
+  returnKeyType?: "none" | "done" | "next" | "go"; 
+};
 
 class TextField extends Component<Props> {
   state = {
@@ -15,6 +23,11 @@ class TextField extends Component<Props> {
     password: this.props.secureTextEntry,
     secureTextEntry: this.props.secureTextEntry,
     icon: "ios-eye",
+  };
+
+  static defaultProps = {
+    autoCompleteType: "off",
+    returnKeyType: "none",
   };
 
   showPassword() {
@@ -26,11 +39,16 @@ class TextField extends Component<Props> {
     });
   }
 
+  localRef: TextInput | null | undefined;
+
   render() {
     return (
       <>
         <View style={styles.textInputContainer}>
           <TextInput
+            ref={this.props.ref}
+            onSubmitEditing={this.props.onSubmitEditing}
+            returnKeyType={this.props.returnKeyType}
             placeholder={this.props.placeholder}
             secureTextEntry={this.state.password}
             onChangeText={this.props.onChangeText}
@@ -38,6 +56,7 @@ class TextField extends Component<Props> {
             style={styles.textInput}
             onFocus={() => this.setState({ isFocused: true })}
             onBlur={() => this.setState({ isFocused: false })}
+            autoCompleteType={this.props.autoCompleteType}
           />
         </View>
       </>
