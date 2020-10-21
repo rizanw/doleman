@@ -5,11 +5,17 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    flexDirection: "column",
-    justifyContent: "flex-start",
+    // alignItems: "center",
+    // flexDirection: "column",
+    // justifyContent: "flex-start",
     width: Dimensions.get("screen").width,
   },
+
+  mapStyle: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+
   button: {
     margin: 4,
     flex: 1,
@@ -42,6 +48,7 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginTop: 12,
+    textAlign: "center",
   },
   textInputContainer: {
     flexDirection: "row",
@@ -132,5 +139,41 @@ export const styles = StyleSheet.create({
     color: colors.GREY,
     fontSize: 12,
     marginBottom: 4,
+  },
+
+  placeTitle: {
+    fontSize: 24,
+    color: colors.BLUE_DEEP,
+    fontWeight: "bold",
+  },
+  placeSubTitle: {
+    marginLeft: 8,
+    fontSize: 12,
+    color: colors.GREY,
+  },
+  placeInfoContainer: {
+    marginHorizontal: 16,
+    padding: 18,
+    borderBottomWidth: 0.6,
+    borderColor: colors.GREY,
+    flexDirection: "row",
+  },
+  placeInfoTitle: {
+    color: colors.LIGHT_ORANGE,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 6,
+    letterSpacing: 1,
+  },
+  placeInfoText: {
+    color: colors.CHARCOAL,
+    fontSize: 14,
+    marginBottom: 4,
+    letterSpacing: 0.2,
+  },
+  placeInfoDescriptionTitle: {
+    fontSize: 20,
+    marginBottom: 6,
+    color: colors.CHARCOAL,
   },
 });

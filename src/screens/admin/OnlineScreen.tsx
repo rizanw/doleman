@@ -1,10 +1,10 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { colors } from "../../resources/colors";
-import { styles } from "../../resources/styles";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -13,7 +13,7 @@ interface Props {
 class OnlineScreen extends React.Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={{ backgroundColor: "white" }}>
         <View style={{ paddingHorizontal: 16, marginTop: 24, width: "100%" }}>
           <TextField placeholder="Kode Booking" />
         </View>
@@ -57,7 +57,7 @@ class OnlineScreen extends React.Component<Props> {
             onPress={() => this.props.navigation.navigate("Camera")}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

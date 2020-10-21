@@ -30,7 +30,7 @@ export default function ProfileStacks() {
         name="MyTicketDetail"
         component={TicketDetailScreen}
         options={{
-          headerTintColor: "white",
+          headerTintColor: "black",
           headerStyle: { shadowColor: "black" },
           headerTitle: "",
           headerTransparent: true,

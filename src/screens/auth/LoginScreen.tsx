@@ -16,15 +16,9 @@ interface Props {
 }
 
 class LoginScreen extends React.Component<Props> {
-  passwordRef = React.useRef(null);
-
   render() {
-    console.log(this.passwordRef);
     return (
-      <KeyboardAvoidingView
-        style={[styles.container]}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
+      <View style={[styles.container]}>
         <Text style={styles.loginTitle}>Selamat Datang!</Text>
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
@@ -34,17 +28,21 @@ class LoginScreen extends React.Component<Props> {
             autoCompleteType="email"
             returnKeyType="next"
           />
-          <TextField secureTextEntry={true} returnKeyType="go" />
+          <TextField
+            placeholder="password"
+            secureTextEntry={true}
+            returnKeyType="go"
+          />
         </View>
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
           <Button
             label="masuk"
             onPress={() =>
-              this.props.navigation.navigate("Profile", { loggedIn: true })
+              this.props.navigation.navigate("Admin" )
             }
           />
         </View>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

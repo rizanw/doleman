@@ -1,13 +1,17 @@
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
 
-class RegisterScreen extends React.Component {
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
+
+class RegisterScreen extends React.Component<Props> {
   state = {};
   render() {
-
     return (
       <KeyboardAvoidingView
         style={[styles.container]}
@@ -22,7 +26,10 @@ class RegisterScreen extends React.Component {
           <TextField placeholder="konfirmasi password" secureTextEntry={true} />
         </View>
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
-          <Button label="daftar" />
+          <Button
+            label="daftar"
+            onPress={() => this.props.navigation.navigate("Profile")}
+          />
         </View>
       </KeyboardAvoidingView>
     );
