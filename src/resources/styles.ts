@@ -176,4 +176,48 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
     color: colors.CHARCOAL,
   },
+
+  datePickerButtonContainer: {
+    backgroundColor: "#F7F7F7", 
+    marginBottom: 16,
+    padding: 16,
+    flexDirection: "row",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#CDCDCD",
+  },
+  datePickerButtonLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.BLUE_DEEP,
+    flex: 1,
+  },
+  pickerContainer: { 
+    marginBottom: 16,
+    padding: 16,
+    borderColor: "#CDCDCD",
+    borderRadius: 5,
+    borderWidth: 1,
+    backgroundColor: "#F7F7F7",
+    color: colors.BLUE_DEEP,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  pickerIconContainer: {
+    marginHorizontal: 0,
+    padding: 16,
+  },
+
+  bookingTitle: {
+    color: colors.BLUE_DEEP,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  bookingText: {
+    fontSize: 14,
+    color: colors.CHARCOAL,
+    marginBottom: 8,
+    letterSpacing: 0.2,
+  },
 });

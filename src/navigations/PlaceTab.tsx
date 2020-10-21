@@ -8,10 +8,15 @@ import PlaceGalleryScreen from "../screens/place/PlaceGalleryScreen";
 import PlaceInfoScreen from "../screens/place/PlaceInfoScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function PlaceTabs() {
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
+
+export default function PlaceTabs({ navigation }: Props) {
   return (
     <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
       <Image
@@ -42,6 +47,7 @@ export default function PlaceTabs() {
           }}
         >
           <TouchableOpacity
+            onPress={() => navigation.navigate("Booking")}
             style={{
               borderColor: colors.BITTERSWEET,
               borderWidth: 2,

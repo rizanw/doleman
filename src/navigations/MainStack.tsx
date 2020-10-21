@@ -5,6 +5,8 @@ import MainTabs from "./MainTab";
 import LoginTabs from "./LoginTab";
 import PlaceTabs from "./PlaceTab";
 import AdminStacks from "./AdminStack";
+import BookingStacks from "./BookingStack";
+import ProfileStacks from "./ProfileStack";
 
 const Stack = createStackNavigator();
 
@@ -12,9 +14,7 @@ export default function MainStacks() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitleStyle: {
-          color: colors.BLUE_DEEP,
-        },
+        headerShown: false,
       }}
     >
       <Stack.Screen
@@ -43,6 +43,8 @@ export default function MainStacks() {
           headerTransparent: true,
         }}
       />
+      <Stack.Screen name="Booking" component={BookingStacks} />
+      <Stack.Screen name="Profile" component={ProfileStacks} />
     </Stack.Navigator>
   );
 }

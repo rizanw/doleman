@@ -5,6 +5,7 @@ import { colors } from "../resources/colors";
 import TicketListScreen from "../screens/myticket/TicketListScreen";
 import TicketDetailScreen from "../screens/myticket/TicketDetailScreen";
 import PlaceListScreen from "../screens/myplace/PlaceListScreen";
+import BookingStacks from "./BookingStack";
 const Stack = createStackNavigator();
 
 export default function ProfileStacks() {
@@ -35,10 +36,7 @@ export default function ProfileStacks() {
           headerTitle: "",
           headerTransparent: true,
         }}
-      />
-      <Stack.Screen name="MyPlaces" component={PlaceListScreen} options={{
-        title:"Tempat Favorit"
-      }} />
+      /> 
     </Stack.Navigator>
   );
 }

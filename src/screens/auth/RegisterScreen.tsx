@@ -1,4 +1,4 @@
-import { NavigationProp } from "@react-navigation/native";
+import { CommonActions, NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 import Button from "../../components/Button";
@@ -28,7 +28,15 @@ class RegisterScreen extends React.Component<Props> {
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
           <Button
             label="daftar"
-            onPress={() => this.props.navigation.navigate("Profile")}
+            onPress={() => {
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "MainTab" }],
+                })
+              );
+              this.props.navigation.navigate("ProfileStack");
+            }}
           />
         </View>
       </KeyboardAvoidingView>

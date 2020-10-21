@@ -25,7 +25,7 @@ export default function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileStacks}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
