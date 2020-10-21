@@ -1,10 +1,15 @@
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { Text, TextInput, View } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
 
-class LoginScreen extends React.Component {
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
+
+class LoginScreen extends React.Component<Props> {
   state = {};
   render() {
     return (
@@ -17,7 +22,10 @@ class LoginScreen extends React.Component {
           <TextField placeholder="password" secureTextEntry={true} />
         </View>
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
-          <Button label="masuk" />
+          <Button
+            label="masuk"
+            onPress={() => this.props.navigation.navigate("Profile", {loggedIn: true})}
+          />
         </View>
       </View>
     );

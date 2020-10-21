@@ -1,14 +1,15 @@
 import React from "react";
 import MapView from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import BottomSheet from "reanimated-bottom-sheet";
+import * as Location from "expo-location";
 
 const renderContent = () => (
   <View
     style={{
       backgroundColor: "white",
       padding: 16,
-      height: Dimensions.get("screen").height - 200,
+      height: Dimensions.get("screen").height - 140,
       alignItems: "center",
     }}
   >
@@ -29,16 +30,60 @@ const renderContent = () => (
 
 export default class DicoverScreen extends React.Component {
   sheetRef = null;
+  state = {
+    errorMsg: "",
+    mapRegion: undefined,
+  };
+
+  async componentDidMount() {
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== "granted") {
+      this.setState({ errorMsg: "Permission to access location was denied" });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({
+      mapRegion: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.08,
+        longitudeDelta: 0.03,
+      },
+    });
+  }
+
+  _handleMapRegionChange(mapRegion: any) {
+    console.log(mapRegion);
+    this.setState({ mapRegion });
+  }
 
   render() {
+    let text = "Waiting..";
+    if (this.state.errorMsg) {
+      text = this.state.errorMsg;
+    } else if (this.state.mapRegion) {
+      text = "";
+    }
+
     return (
       <View style={styles.container}>
-        <MapView style={styles.mapStyle} />
-
+        <MapView
+          showsUserLocation={true}
+          style={styles.mapStyle}
+          region={this.state.mapRegion}
+          onRegionChange={this._handleMapRegionChange.bind(this)}
+        />
+        <View style={{ position: "absolute", top: 24, right: 4 }}>
+          <Image
+            source={require("../../assets/doleman.png")}
+            style={{ width: 100, height: 100, resizeMode: "contain" }}
+          />
+          <Text>{text}</Text>
+        </View>
         <BottomSheet
           ref={this.sheetRef}
           initialSnap={2}
-          snapPoints={[Dimensions.get("screen").height - 200, 220, 100]}
+          snapPoints={[Dimensions.get("screen").height - 140, 220, 140]}
           borderRadius={14}
           renderContent={renderContent}
         />

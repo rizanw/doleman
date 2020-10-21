@@ -3,16 +3,59 @@ import MapView from "react-native-maps";
 import { TouchableOpacity, Text, View, Dimensions } from "react-native";
 import Button from "../components/Button";
 import { styles } from "../resources/styles";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { colors } from "../resources/colors";
 import { FontAwesome5, AntDesign } from "@expo/vector-icons";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 export default class ProfileScreen extends React.Component<Props> {
+  state = {
+    isLoggedIn: false,
+  };
+
+  componentDidMount() {
+    console.log(this.props.route.name)
+    if (this.props.route.name == "Profile") {
+      this.loggingIn();
+    }
+  }
+
+  loggingIn() {
+    this.setState({ isLoggedIn: true });
+  }
+
   render() {
+    if (this.state.isLoggedIn) {
+      return (
+        <View style={styles.container}>
+          <Text style={{ fontSize: 14, marginTop: 28 }}>
+            Silakan masuk atau mendaftar
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 12,
+              marginTop: 24,
+            }}
+          >
+            <Button
+              label="masuk"
+              onPress={() => this.props.navigation.navigate("Login")}
+            />
+            <Button
+              label="daftar"
+              type="outline"
+              onPress={() => this.props.navigation.navigate("Register")}
+            />
+          </View>
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, width: "100%" }}>
@@ -75,7 +118,7 @@ export default class ProfileScreen extends React.Component<Props> {
         >
           <Button
             label="keluar"
-            onPress={() => this.props.navigation.navigate("Register")}
+            onPress={() => this.props.navigation.navigate("Login")}
           />
         </View>
       </View>
@@ -83,27 +126,6 @@ export default class ProfileScreen extends React.Component<Props> {
   }
 }
 
-// export default class ProfileScreen extends React.Component<Props> {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={{ fontSize: 14, marginTop: 28 }}>
-//           Silakan masuk atau mendaftar
-//         </Text>
-//         <View
-//           style={{ flexDirection: "row", marginHorizontal: 12, marginTop: 24 }}
-//         >
-//           <Button
-//             label="masuk"
-//             onPress={() => this.props.navigation.navigate("Login")}
-//           />
-//           <Button
-//             label="daftar"
-//             type="outline"
-//             onPress={() => this.props.navigation.navigate("Register")}
-//           />
-//         </View>
-//       </View>
-//     );
-//   }
-// }
+
+// TODO : Masalah form > auto fokus keyboard 
+// sebagian teks hilang? 

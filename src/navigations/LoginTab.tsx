@@ -10,7 +10,13 @@ const Tab = createMaterialTopTabNavigator();
 export default function LoginTabs() {
   return (
     <>
-      <View style={{ alignItems: "center", backgroundColor: colors.WHITE }}>
+      <View
+        style={{
+          alignItems: "center",
+          backgroundColor: colors.WHITE,
+          paddingTop: 40,
+        }}
+      >
         <Image
           source={require("../../assets/doleman.png")}
           style={{
