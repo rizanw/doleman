@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   Keyboard,
@@ -13,10 +13,23 @@ import { colors } from "../resources/colors";
 import { styles } from "../resources/styles";
 import DirectScreen from "../screens/admin/DirectScreen";
 import OnlineScreen from "../screens/admin/OnlineScreen";
+import ProgressCircle from "react-native-progress-circle";
+
+const DATA = [
+  {
+    masuk: 120,
+    keluar: 20,
+    maks: 1000,
+  },
+];
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function AdminTabs() {
+  const [masuk, setMasuk] = useState(260);
+  const [keluar, setKeluar] = useState(20);
+  const [maks, setMaks] = useState(1000);
+
   return (
     <KeyboardAvoidingView
       style={{ backgroundColor: "white", flex: 1 }}
@@ -43,28 +56,43 @@ export default function AdminTabs() {
                 <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
                   Pengunjung Masuk
                 </Text>
-                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>20</Text>
+                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>
+                  {masuk}
+                </Text>
               </View>
               <View style={{ flexDirection: "row" }}>
                 <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
                   Pengunjung Keluar
                 </Text>
-                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>20</Text>
+                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>
+                  {keluar}
+                </Text>
               </View>
               <View style={{ flexDirection: "row" }}>
                 <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
                   Total Pengunjung
                 </Text>
-                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>40</Text>
+                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>
+                  {keluar + masuk}
+                </Text>
               </View>
             </View>
             <View style={{ flex: 1, justifyContent: "center" }}>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
-                  Pengunjung Maks
-                </Text>
-                <Text style={[styles.backgroundGreyText, { flex: 1 }]}>
-                  1000
+              <View style={{ alignItems: "center" }}>
+                <ProgressCircle
+                  percent={(masuk / maks) * 100}
+                  radius={40}
+                  borderWidth={6}
+                  color={colors.BLUE_NEON}
+                  shadowColor={"#e1e1e1"}
+                  bgColor={"#F7F7F7"}
+                >
+                  <Text style={{ fontSize: 18 }}>
+                    {(masuk / maks) * 100 + "%"}
+                  </Text>
+                </ProgressCircle>
+                <Text style={[styles.backgroundGreyText, { marginTop: 10 }]}>
+                  Pengunjung Maks : {maks}
                 </Text>
               </View>
             </View>

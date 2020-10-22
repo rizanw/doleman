@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import Button from "../../components/Button";
 import { styles } from "../../resources/styles";
 
@@ -10,7 +10,12 @@ class DirectScreen extends React.Component {
         <View
           style={{ flexDirection: "row", marginHorizontal: 12, marginTop: 24 }}
         >
-          <Button label="Tambah Pengunjung" />
+          <Button
+            label="Tambah Pengunjung"
+            onPress={() => {
+              Alert.alert("Berhasil!", "Pengunjung ditambahkan.");
+            }}
+          />
         </View>
       </View>
     );
