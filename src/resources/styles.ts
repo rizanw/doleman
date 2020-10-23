@@ -12,8 +12,7 @@ export const styles = StyleSheet.create({
   },
 
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    flex: 1,
   },
 
   button: {
@@ -178,7 +177,7 @@ export const styles = StyleSheet.create({
   },
 
   datePickerButtonContainer: {
-    backgroundColor: "#F7F7F7", 
+    backgroundColor: "#F7F7F7",
     marginBottom: 16,
     padding: 16,
     flexDirection: "row",
@@ -192,7 +191,7 @@ export const styles = StyleSheet.create({
     color: colors.BLUE_DEEP,
     flex: 1,
   },
-  pickerContainer: { 
+  pickerContainer: {
     marginBottom: 16,
     padding: 16,
     borderColor: "#CDCDCD",

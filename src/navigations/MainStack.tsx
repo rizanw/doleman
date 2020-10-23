@@ -36,6 +36,7 @@ export default function MainStacks() {
         name="Place"
         component={PlaceTabs}
         options={{
+          headerShown: true,
           headerTintColor: "white",
           headerBackTitleVisible: false,
           headerStyle: { shadowColor: "black" },

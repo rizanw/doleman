@@ -24,7 +24,7 @@ export default function ProfileStacks() {
         name="MyTickets"
         component={TicketListScreen}
         options={{
-          title: "Tiket Saya"
+          title: "Tiket Saya",
         }}
       />
       <Stack.Screen
@@ -36,7 +36,14 @@ export default function ProfileStacks() {
           headerTitle: "",
           headerTransparent: true,
         }}
-      /> 
+      />
+      <Stack.Screen
+        name="MyPlaces"
+        component={PlaceListScreen}
+        options={{
+          title: "Tempat Favorit",
+        }}
+      />
     </Stack.Navigator>
   );
 }

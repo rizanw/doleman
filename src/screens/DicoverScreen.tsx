@@ -72,17 +72,16 @@ export default class DicoverScreen extends React.Component<Props> {
       text = "";
     }
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
         <MapView
           showsUserLocation={true}
           style={styles.mapStyle}
+          initialRegion={this.state.mapRegion}
           region={this.state.mapRegion}
-          onRegionChange={this._handleMapRegionChange.bind(this)}
+          onRegionChangeComplete={this._handleMapRegionChange.bind(this)}
         />
-        <View style={{ position: "absolute", top: 24, right: 4 }}>
-          <TouchableOpacity
-            onPress={async () => await this._getCurrentLocation()}
-          >
+        <View style={{ position: "absolute", top: 24, right: 4, zIndex: 999 }}>
+          <TouchableOpacity onPress={() => this._getCurrentLocation()}>
             <Image
               source={require("../../assets/doleman.png")}
               style={{ width: 100, height: 100, resizeMode: "contain" }}

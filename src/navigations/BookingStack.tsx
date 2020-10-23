@@ -33,7 +33,7 @@ export default function BookingStacks() {
         name={"Confirmation"}
         component={ConfirmationScreen}
         options={{ headerShown: false }}
-      /> 
+      />
     </Stack.Navigator>
   );
 }
