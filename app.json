@@ -18,14 +18,22 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rzndwb.doleman",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDqBvPHi5Cx6pyfSt8AOUlJeYcyyiUCJoM"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
       "package": "com.rzndwb.doleman",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDqBvPHi5Cx6pyfSt8AOUlJeYcyyiUCJoM"
+        }
+      }
     }
   }
 }

@@ -1,13 +1,13 @@
 import React from "react";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import {
-  StyleSheet,
   Text,
   View,
   Dimensions,
   Image,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as Location from "expo-location";
@@ -15,6 +15,8 @@ import { NavigationProp } from "@react-navigation/native";
 import { styles } from "../resources/styles";
 import { colors } from "../resources/colors";
 import { AntDesign, Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { TouchableOpacity as TouchableOpacityAndroid } from "react-native-gesture-handler";
+import { mapStyle } from "../resources/mapStyle";
 
 const DATA = [
   {
@@ -74,13 +76,15 @@ export default class DicoverScreen extends React.Component<Props> {
     return (
       <View style={{ flex: 1 }}>
         <MapView
+          provider={PROVIDER_GOOGLE}
           showsUserLocation={true}
           style={styles.mapStyle}
           initialRegion={this.state.mapRegion}
           region={this.state.mapRegion}
-          onRegionChangeComplete={this._handleMapRegionChange.bind(this)}
+          showsCompass={true}
+          customMapStyle={mapStyle}
         />
-        <View style={{ position: "absolute", top: 24, right: 4, zIndex: 999 }}>
+        <View style={{ position: "absolute", top: 24, left: 4 }}>
           <TouchableOpacity onPress={() => this._getCurrentLocation()}>
             <Image
               source={require("../../assets/doleman.png")}
@@ -90,7 +94,7 @@ export default class DicoverScreen extends React.Component<Props> {
           <Text>{text}</Text>
         </View>
         <BottomSheet
-          ref={this.sheetRef}
+          ref="BottomSheet"
           initialSnap={2}
           snapPoints={[Dimensions.get("screen").height - 140, 220, 140]}
           borderRadius={14}
@@ -126,7 +130,12 @@ export default class DicoverScreen extends React.Component<Props> {
         data={DATA}
         keyExtractor={(item, index) => item.id}
         renderItem={({ item }) => {
-          return <Item item={item} navigation={this.props.navigation} />;
+          return Platform.select({
+            ios: <Item item={item} navigation={this.props.navigation} />,
+            android: (
+              <ItemAndroid item={item} navigation={this.props.navigation} />
+            ),
+          });
         }}
         style={{ width: "100%", marginTop: 24 }}
       />
@@ -140,45 +149,93 @@ interface ItemProps {
 }
 
 const Item = ({ item, navigation }: ItemProps) => (
-  <TouchableOpacity
-    onPress={() => navigation.navigate("Place")}
-    style={styles.ticketCard}
-    activeOpacity={0.7}
-  >
-    <View style={styles.ticketCardLeftSide}>
+  <View style={styles.ticketCard}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Place")}
+      style={{ flexDirection: "row", flex: 1 }}
+    >
       <Image
         source={require("../../assets/jatim1.jpg")}
         style={{
-          width: 120,
-          height: 120,
+          width: 130,
+          height: 130,
           resizeMode: "cover",
         }}
       />
-    </View>
-    <View style={styles.ticketCardRightSide}>
-      <View style={{ flexDirection: "row", flex: 1 }}>
-        <View style={{ flex: 3 }}>
-          <Text style={styles.ticketCardTextTitle}>{item.name}</Text>
-          <View style={{ marginTop: 6 }}>
-            <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text>
-          </View>
-          <View style={{ marginTop: 6, flexDirection: "row" }}>
-            <Ionicons name="md-people" size={16} color={colors.BLUE_DEEP} />
-            <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
-              {item.percantage + "% ramai"}
-            </Text>
-          </View>
-          <View style={{ marginTop: 6, flexDirection: "row" }}>
-            <FontAwesome5 name="route" size={16} color={colors.BLUE_DEEP} />
-            <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
-              {item.distance}
-            </Text>
-          </View>
+      <View style={styles.ticketCardRightSide}>
+        <Text style={styles.ticketCardTextTitle}>{item.name}</Text>
+        <View style={{ marginTop: 6 }}>
+          <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text>
         </View>
-        <View style={{ flex: 0.5, alignItems: "flex-end" }}>
-          <AntDesign name="hearto" size={20} color={colors.GREY} />
+        <View style={{ marginTop: 6, flexDirection: "row" }}>
+          <Ionicons name="md-people" size={16} color={colors.BLUE_DEEP} />
+          <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
+            {item.percantage + "% ramai"}
+          </Text>
+        </View>
+        <View style={{ marginTop: 6, flexDirection: "row" }}>
+          <FontAwesome5 name="route" size={16} color={colors.BLUE_DEEP} />
+          <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
+            {item.distance}
+          </Text>
         </View>
       </View>
+    </TouchableOpacity>
+    <View
+      style={{
+        position: "absolute",
+        right: 12,
+        top: 12,
+        padding: 4,
+      }}
+    >
+      <AntDesign name="hearto" size={20} color={colors.GREY} />
     </View>
-  </TouchableOpacity>
+  </View>
+);
+
+const ItemAndroid = ({ item, navigation }: ItemProps) => (
+  <View style={styles.ticketCard}>
+    <TouchableOpacityAndroid
+      onPress={() => navigation.navigate("Place")}
+      style={{ flexDirection: "row", flex: 1 }}
+    >
+      <Image
+        source={require("../../assets/jatim1.jpg")}
+        style={{
+          width: 130,
+          height: 130,
+          resizeMode: "cover",
+        }}
+      />
+      <View style={styles.ticketCardRightSide}>
+        <Text style={styles.ticketCardTextTitle}>{item.name}</Text>
+        <View style={{ marginTop: 6 }}>
+          <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text>
+        </View>
+        <View style={{ marginTop: 6, flexDirection: "row" }}>
+          <Ionicons name="md-people" size={16} color={colors.BLUE_DEEP} />
+          <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
+            {item.percantage + "% ramai"}
+          </Text>
+        </View>
+        <View style={{ marginTop: 6, flexDirection: "row" }}>
+          <FontAwesome5 name="route" size={16} color={colors.BLUE_DEEP} />
+          <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
+            {item.distance}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacityAndroid>
+    <View
+      style={{
+        position: "absolute",
+        right: 12,
+        top: 12,
+        padding: 4,
+      }}
+    >
+      <AntDesign name="hearto" size={20} color={colors.GREY} />
+    </View>
+  </View>
 );

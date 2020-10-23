@@ -93,10 +93,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   ticketCardRightSide: {
-    padding: 16,
-    flex: 1,
+    padding: 16, 
   },
   ticketCardTextTitle: {
+    flex: 1,
     fontSize: 16,
     fontWeight: "bold",
     color: colors.CHARCOAL,
@@ -203,8 +203,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   pickerIconContainer: {
-    marginHorizontal: 0,
-    padding: 16,
+    margin: 16,
   },
 
   bookingTitle: {

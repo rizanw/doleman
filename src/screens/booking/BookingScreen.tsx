@@ -170,16 +170,7 @@ class BookingScreen extends React.Component<Props> {
             </View>
           </View>
         </View>
-        <View
-          style={{
-            width: "100%",
-            backgroundColor: "white",
-            position: "absolute",
-            top: Dimensions.get("screen").height - 180,
-            right: 0,
-            paddingHorizontal: 12,
-          }}
-        >
+        <View style={{ paddingHorizontal: 12, marginTop: 48 }}>
           <Button
             label="Book"
             onPress={() => {

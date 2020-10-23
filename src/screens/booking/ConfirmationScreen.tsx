@@ -71,16 +71,7 @@ class ConfirmationScreen extends React.Component<Props> {
             Nomor tiket anda: 26182
           </Text>
         </View>
-        <View
-          style={{
-            width: "100%",
-            backgroundColor: "white",
-            position: "absolute",
-            top: Dimensions.get("window").height - 100,
-            right: 0,
-            paddingHorizontal: 12,
-          }}
-        >
+        <View style={{ paddingHorizontal: 12, marginTop: 48 }}>
           <Text
             style={{
               fontSize: 11,
@@ -100,7 +91,12 @@ class ConfirmationScreen extends React.Component<Props> {
                   routes: [{ name: "MainTab" }],
                 })
               );
-              this.props.navigation.navigate("ProfileStack");
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 1,
+                  routes: [{ name: "ProfileStack" }],
+                })
+              ); 
               this.props.navigation.navigate("MyTickets");
             }}
           />
