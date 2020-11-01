@@ -12,10 +12,15 @@ import {
   ScrollView,
 } from "react-native";
 import { colors } from "../resources/colors";
+import { RouteProp } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function LoginTabs() {
+interface Props {
+  route: RouteProp<any, any>;
+}
+
+export default function LoginTabs({ route }: Props) {
   return (
     <KeyboardAvoidingView
       style={{ backgroundColor: "white", flex: 1 }}
@@ -55,6 +60,7 @@ export default function LoginTabs() {
             name="Login"
             component={LoginScreen}
             options={{ tabBarLabel: "Masuk" }}
+            initialParams={{ booking: route.params?.booking }}
           />
           <Tab.Screen
             name="Register"

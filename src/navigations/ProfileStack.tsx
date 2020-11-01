@@ -6,9 +6,14 @@ import TicketListScreen from "../screens/myticket/TicketListScreen";
 import TicketDetailScreen from "../screens/myticket/TicketDetailScreen";
 import PlaceListScreen from "../screens/myplace/PlaceListScreen";
 import BookingStacks from "./BookingStack";
+import { RouteProp } from "@react-navigation/native";
 const Stack = createStackNavigator();
 
-export default function ProfileStacks() {
+interface Props {
+  route: RouteProp<any, any>;
+}
+
+export default function ProfileStacks({ route }: Props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -19,7 +24,12 @@ export default function ProfileStacks() {
         },
       }}
     >
-      <Stack.Screen name="Profil" component={ProfileScreen} options={{}} />
+      <Stack.Screen
+        name="Profil"
+        component={ProfileScreen}
+        initialParams={route}
+      />
+
       <Stack.Screen
         name="MyTickets"
         component={TicketListScreen}

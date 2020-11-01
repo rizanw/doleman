@@ -30,6 +30,44 @@ export default function AdminTabs() {
   const [keluar, setKeluar] = useState(20);
   const [maks, setMaks] = useState(1000);
 
+  var dt = new Date();
+  function getDay() {
+    switch (dt.getDay()) {
+      case 1:
+        return "Senin";
+      case 2:
+        return "Selasa";
+      case 3:
+        return "Rabu";
+      case 4:
+        return "Kamis";
+      case 5:
+        return "Jumat";
+      case 6:
+        return "Sabtu";
+      default:
+        return "Minggu";
+    }
+  }
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mei",
+    "Jun",
+    "Jul",
+    "Agu",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
+  ];
+
+  const hari = getDay();
+  const date =
+    dt.getDate() + " " + monthNames[dt.getMonth()] + " " + dt.getFullYear();
+
   return (
     <KeyboardAvoidingView
       style={{ backgroundColor: "white", flex: 1 }}
@@ -48,7 +86,7 @@ export default function AdminTabs() {
         </Text>
         <View style={[styles.backgroundGrey, { marginHorizontal: 0 }]}>
           <Text style={styles.backgroundGreyText}>
-            Statistik Hari Ini ( Minggu, 11 Oct 2020)
+            Statistik Hari Ini ({hari}, {date})
           </Text>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1, justifyContent: "center" }}>

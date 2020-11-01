@@ -1,3 +1,4 @@
+import { RouteProp } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { colors } from "../resources/colors";
@@ -8,7 +9,11 @@ import TicketListScreen from "../screens/myticket/TicketListScreen";
 
 const Stack = createStackNavigator();
 
-export default function BookingStacks() {
+interface Props {
+  route: RouteProp<any, any>;
+}
+
+export default function BookingStacks({ route }: Props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -23,6 +28,7 @@ export default function BookingStacks() {
         name={"Booking"}
         component={BookingScreen}
         options={{ title: "Booking" }}
+        initialParams={{ item: route.params?.item }}
       />
       <Stack.Screen
         name={"Payment"}

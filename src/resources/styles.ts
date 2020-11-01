@@ -91,15 +91,16 @@ export const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     borderRadius: 8,
     flexDirection: "row",
+    marginBottom: 10,
   },
-  ticketCardRightSide: {
-    padding: 16, 
+  ticketCardRightSide: { 
+    padding: 16,
   },
   ticketCardTextTitle: {
     flex: 1,
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.CHARCOAL,
+    color: colors.CHARCOAL, 
   },
   ticketCardTextSubTitle: {
     fontSize: 12,

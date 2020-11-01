@@ -8,24 +8,28 @@ import PlaceGalleryScreen from "../screens/place/PlaceGalleryScreen";
 import PlaceInfoScreen from "../screens/place/PlaceInfoScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
-export default function PlaceTabs({ navigation }: Props) {
+export default function PlaceTabs({ navigation, route }: Props) {
   return (
-    <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
+    <ScrollView
+      style={{ backgroundColor: "white", flex: 1 }}
+      showsVerticalScrollIndicator={false}
+    >
       <Image
-        source={require("../../assets/jatim1.jpg")}
+        source={{ uri: route.params?.item.img }}
         style={{ width: "100%", height: 250, resizeMode: "cover" }}
       />
       <View style={{ flexDirection: "row" }}>
         <View style={{ marginTop: 24, marginLeft: 24, flex: 2 }}>
-          <Text style={styles.placeTitle}>Jawa Timur Park I</Text>
+          <Text style={styles.placeTitle}>{route.params?.item.name}</Text>
           <View
             style={{
               marginTop: 6,
@@ -34,7 +38,9 @@ export default function PlaceTabs({ navigation }: Props) {
             }}
           >
             <Ionicons name="md-people" size={18} color={colors.BLUE_DEEP} />
-            <Text style={styles.placeSubTitle}>40% ramai</Text>
+            <Text style={styles.placeSubTitle}>
+              {route.params?.item.percantage}% ramai
+            </Text>
           </View>
         </View>
         <View
@@ -47,7 +53,9 @@ export default function PlaceTabs({ navigation }: Props) {
           }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("Booking")}
+            onPress={() =>
+              navigation.navigate("Booking", { item: route.params?.item })
+            }
             style={{
               borderColor: colors.BITTERSWEET,
               borderWidth: 2,
@@ -80,7 +88,11 @@ export default function PlaceTabs({ navigation }: Props) {
           inactiveTintColor: colors.BITTERSWEET,
         }}
       >
-        <Tab.Screen name="Info" component={PlaceInfoScreen} options={{}} />
+        <Tab.Screen
+          name="Info"
+          component={PlaceInfoScreen}
+          initialParams={{ item: route.params?.item }}
+        />
         <Tab.Screen name="Gallery" component={PlaceGalleryScreen} />
       </Tab.Navigator>
     </ScrollView>

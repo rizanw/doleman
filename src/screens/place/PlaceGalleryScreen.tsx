@@ -44,6 +44,7 @@ class PlaceGalleryScreen extends React.Component {
         {DATA.map(({ id }) => {
           return (
             <View
+              key={id}
               style={{
                 margin: 6,
                 width: Dimensions.get("screen").width / 2 - 12,

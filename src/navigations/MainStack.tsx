@@ -23,7 +23,7 @@ export default function MainStacks() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Login"
+        name="LoginTab"
         component={LoginTabs}
         options={{ headerShown: false }}
       />

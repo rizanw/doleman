@@ -23,7 +23,6 @@ import {
 import { TouchableOpacity as TouchableOpacityAndroid } from "react-native-gesture-handler";
 import { mapStyle } from "../resources/mapStyle";
 import * as geolib from "geolib";
-import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
 
 const DATA = [
   {
@@ -282,51 +281,12 @@ export default class DicoverScreen extends React.Component<Props> {
           </TouchableOpacity>
           <Text>{text}</Text>
         </View>
-        <ScrollBottomSheet<string> // If you are using TS, that'll infer the renderItem `item` type
-          componentType="FlatList"
-          snapPoints={[128, "50%", Dimensions.get("screen").height - 200]}
-          initialSnapIndex={2}
-          renderHandle={() => (
-            <View
-              style={{
-                backgroundColor: "white",
-                padding: 16,
-                alignItems: "center",
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }}
-            >
-              <View
-                style={{
-                  width: 76,
-                  height: 8,
-                  backgroundColor: "#CCCCCC",
-                  borderRadius: 10,
-                  marginBottom: 12,
-                }}
-              />
-              <Text
-                style={{ fontSize: 18, fontWeight: "bold", color: "#777777" }}
-              >
-                Jelajah sekitar
-              </Text>
-            </View>
-          )}
-          data={DATA.sort((a, b) => a.distance - b.distance)}
-          keyExtractor={(item, index) => item.id}
-          renderItem={({ item }) =>
-            Platform.select({
-              ios: <Item item={item} navigation={this.props.navigation} />,
-              android: (
-                <ItemAndroid item={item} navigation={this.props.navigation} />
-              ),
-            })
-          }
-          style={{ flex: 1 }}
-          contentContainerStyle={{
-            backgroundColor: colors.WHITE,
-            paddingHorizontal: 16,
-          }}
+        <BottomSheet
+          ref="BottomSheet"
+          initialSnap={2}
+          snapPoints={[Dimensions.get("screen").height - 140, 220, 140]}
+          borderRadius={14}
+          renderContent={this.renderContent.bind(this)}
         />
       </View>
     );
@@ -394,7 +354,7 @@ const Item = ({ item, navigation }: ItemProps) => (
           resizeMode: "cover",
         }}
       />
-      <View style={[styles.ticketCardRightSide, { flex: 1 }]}>
+      <View style={[styles.ticketCardRightSide]}>
         <Text style={styles.ticketCardTextTitle} numberOfLines={1}>
           {item.name}
         </Text>
@@ -443,7 +403,7 @@ const ItemAndroid = ({ item, navigation }: ItemProps) => (
           resizeMode: "cover",
         }}
       />
-      <View style={[styles.ticketCardRightSide, { width: "60%" }]}>
+      <View style={[styles.ticketCardRightSide, {  }]}>
         <Text style={styles.ticketCardTextTitle} numberOfLines={1}>
           {item.name}
         </Text>
@@ -468,7 +428,7 @@ const ItemAndroid = ({ item, navigation }: ItemProps) => (
       style={{
         right: 12,
         top: 12,
-        padding: 4,
+        padding: 4, 
       }}
     >
       <AntDesign name="hearto" size={20} color={colors.GREY} />

@@ -12,10 +12,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { AntDesign } from "@expo/vector-icons";
 import Button from "../../components/Button";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 class BookingScreen extends React.Component<Props> {
@@ -24,7 +25,8 @@ class BookingScreen extends React.Component<Props> {
     date: new Date().toDateString(),
     ticket: 0,
     qty: 0,
-    location: "Jawa Timur Park I",
+    location: this.props.route.params?.item.name,
+    ticketPrice: [],
   };
 
   showDatePicker = () => {
@@ -41,7 +43,38 @@ class BookingScreen extends React.Component<Props> {
     this.hideDatePicker();
   };
 
+  componentDidMount() {
+    if (this.props.route.params?.item.name == "Jawa Timur Park 3") {
+      this.setState({
+        ticketPrice: [
+          { label: "Tiket Regular (Rp. 50.000)", value: 50000 },
+          { label: "Tiket VIP (Rp. 100.000)", value: 100000 },
+          { label: "Tiket Premium (Rp. 150.000)", value: 150000 },
+        ],
+      });
+    } else if (
+      this.props.route.params?.item.name == "Museum Zoologi Frater Vianney"
+    ) {
+      this.setState({
+        ticketPrice: [
+          { label: "Tiket Sekolah (Rp. 10.000)", value: 10000 },
+          { label: "Tiket Kuliah (Rp. 20.000)", value: 20000 },
+        ],
+      });
+    } else {
+      this.setState({
+        ticketPrice: [
+          {
+            label: "Tiket (" + this.props.route.params?.item.price + ")",
+            value: this.props.route.params?.item.price.replace(/\D/g,''),
+          },
+        ],
+      });
+    }
+  }
+
   render() {
+    console.log(this.props.route.params);
     return (
       <ScrollView style={[styles.container, { paddingTop: 24 }]}>
         <View style={{ marginHorizontal: 16 }}>
@@ -65,11 +98,7 @@ class BookingScreen extends React.Component<Props> {
               color: "black",
             }}
             onValueChange={(value) => this.setState({ ticket: value })}
-            items={[
-              { label: "Tiket Regular (Rp. 50.000)", value: 50000 },
-              { label: "Tiket VIP (Rp. 100.000)", value: 100000 },
-              { label: "Tiket Premium (Rp. 150.000)", value: 150000 },
-            ]}
+            items={this.state.ticketPrice}
             style={{
               placeholder: styles.datePickerButtonLabel,
               inputIOS: styles.pickerContainer,

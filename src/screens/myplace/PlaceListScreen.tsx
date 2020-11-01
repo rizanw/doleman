@@ -5,13 +5,7 @@ import { styles } from "../../resources/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../resources/colors";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    name: "Jawa Timur Park I",
-    location: "Batu, Malang",
-  },
-];
+const DATA = [];
 
 interface ItemProps {
   item: any;
@@ -58,6 +52,15 @@ class PlaceListScreen extends React.Component {
         <FlatList
           data={DATA}
           keyExtractor={(item, index) => item.id}
+          ListEmptyComponent={() => {
+            return (
+              <View style={{ alignItems: "center" }}>
+                <Text style={{ textAlign: "center", fontSize: 12 }}>
+                  Tidak ada Tempat Favorit Tersimpan
+                </Text>
+              </View>
+            );
+          }}
           renderItem={({ item }) => {
             return <Item item={item} navigation={this.props.navigation} />;
           }}

@@ -1,14 +1,23 @@
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+import {
+  CommonActions,
+  NavigationProp,
+  RouteProp,
+} from "@react-navigation/native";
 import React from "react";
 import { Alert, Dimensions, ScrollView, Text, View } from "react-native";
 import { styles } from "../../resources/styles";
 import RNPickerSelect from "react-native-picker-select";
 import { AntDesign } from "@expo/vector-icons";
 import Button from "../../components/Button";
+import { AuthState } from "../../store/auth/types";
+import { connect } from "react-redux";
+import { updateAuth } from "../../store/auth/actions";
+import { bindActionCreators } from "redux";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
+  authState: AuthState;
 }
 
 class PaymentScreen extends React.Component<Props> {
@@ -128,8 +137,27 @@ class PaymentScreen extends React.Component<Props> {
                     {
                       text: "Iya",
                       style: "cancel",
-                      onPress: () =>
-                        this.props.navigation.navigate("Confirmation"),
+                      onPress: () => {
+                        if (this.props.authState.isLoggedIn) {
+                          this.props.navigation.navigate("Confirmation");
+                        } else {
+                          this.props.navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{ name: "MainTab" }],
+                            })
+                          );
+                          this.props.navigation.dispatch(
+                            CommonActions.reset({
+                              index: 1,
+                              routes: [{ name: "ProfileStack" }],
+                            })
+                          );
+                          this.props.navigation.navigate("LoginTab", {
+                            booking: true,
+                          });
+                        }
+                      },
                     },
                   ],
                   { cancelable: false }
@@ -143,4 +171,14 @@ class PaymentScreen extends React.Component<Props> {
   }
 }
 
-export default PaymentScreen;
+const mapStateToProps = (state: any) => {
+  return {
+    authState: state.authState,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  updateAuth: bindActionCreators(updateAuth, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentScreen);

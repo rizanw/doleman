@@ -88,15 +88,15 @@ class ConfirmationScreen extends React.Component<Props> {
               this.props.navigation.dispatch(
                 CommonActions.reset({
                   index: 0,
-                  routes: [{ name: "MainTab" }],
+                  routes: [{ name: "MainTab" }], 
                 })
               );
               this.props.navigation.dispatch(
                 CommonActions.reset({
                   index: 1,
-                  routes: [{ name: "ProfileStack" }],
+                  routes: [{ name: "ProfileStack" }], 
                 })
-              ); 
+              );
               this.props.navigation.navigate("MyTickets");
             }}
           />

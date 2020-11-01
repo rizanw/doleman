@@ -32,7 +32,7 @@ class TicketDetailScreen extends React.Component {
           }}
         >
           <Text style={styles.ticketTitleCode}>Kode Booking </Text>
-          <Text style={styles.ticketCode}>123456</Text>
+          <Text style={styles.ticketCode}>32132</Text>
         </View>
         <View style={styles.backgroundGrey}>
           <View style={{ flexDirection: "row" }}>
@@ -40,7 +40,7 @@ class TicketDetailScreen extends React.Component {
               Tanggal
             </Text>
             <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
-              : Sabtu, 10 Oct 2020
+              : Sabtu, 14 Nov 2020
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
