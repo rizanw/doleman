@@ -1,8 +1,3 @@
-import {
-  CommonActions,
-  NavigationProp,
-  RouteProp,
-} from "@react-navigation/native";
 import React, { createRef } from "react";
 import {
   KeyboardAvoidingView,
@@ -11,54 +6,61 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
-import { updateAuth } from "../../store/auth/actions";
+import {
+  CommonActions,
+  NavigationProp,
+  RouteProp,
+} from "@react-navigation/native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { login } from "../../store/auth/actions";
+import { UserIn } from "../../store/auth/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
-  updateAuth: (isLoggedIn: boolean) => void;
+  login: (user: UserIn) => {};
 }
 
 class LoginScreen extends React.Component<Props> {
   state = {
     email: "",
     password: "",
+    isInvalid: true,
   };
 
-  _LoginCheck() {
-    if (
-      this.state.email == "Admin@jatim1.com" &&
-      this.state.password == "checkin"
-    ) {
-      this.props.navigation.navigate("Admin");
-    } else if (
-      this.state.email == "Rizan@its.ac.id" &&
-      this.state.password == "rizan123"
-    ) {
-      this.props.updateAuth(true);
-      if (this.props.route.params?.booking) {
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: "Booking" }],
-          })
-        );
-        this.props.navigation.navigate("Confirmation");
-      } else {
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: "MainTab" }],
-          })
-        );
-        this.props.navigation.navigate("ProfileStacks");
-      }
-    } else alert("Isi Email dan Password dengan benar!");
+  async _LoginCheck() {
+    if (!this.state.email || !this.state.password) {
+      alert("Isi Email dan Password dengan benar!");
+    }
+
+    let user: UserIn = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    let req = await this.props.login(user);
+
+    if (!req.success) {
+      console.log("invalid");
+      this.setState({ isInvalid: true });
+      alert("Periksa kembali email dan password anda!");
+    } else {
+      this.setState({ isInvalid: false });
+    }
+
+    if (!this.state.isInvalid) {
+      this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "MainTab" }],
+        })
+      );
+      this.props.navigation.navigate("ProfileStack");
+    }
   }
 
   render() {
@@ -91,13 +93,11 @@ class LoginScreen extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: any) => {
-  return {
-    authState: state.authState,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateAuth: bindActionCreators(updateAuth, dispatch),
+  login: bindActionCreators(login, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

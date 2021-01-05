@@ -11,22 +11,31 @@ import {
 import { colors } from "../resources/colors";
 import { FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { AuthState } from "../store/auth/types";
+import { User } from "../store/auth/types";
 import { bindActionCreators } from "redux";
-import { updateAuth } from "../store/auth/actions";
+import { logout } from "../store/auth/actions";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
-  authState: AuthState;
-  updateAuth: (isLoggedIn: boolean) => void;
+  auth: User;
+  logout: () => void;
 }
 
 class ProfileScreen extends React.Component<Props> {
-  state = {};
+  state = {
+    name: "",
+    location: "",
+  };
+
+  async componentDidMount() {
+    if (this.props.auth.accessToken) {
+      this.setState({ name: this.props.auth.name });
+    }
+  }
 
   render() {
-    if (!this.props.authState.isLoggedIn) {
+    if (!this.props.auth.accessToken) {
       return (
         <View style={[styles.container, { alignItems: "center" }]}>
           <Text style={{ fontSize: 14, marginTop: 28 }}>
@@ -82,9 +91,9 @@ class ProfileScreen extends React.Component<Props> {
               }}
             >
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                Sue Rizan
+                {this.state.name}
               </Text>
-              <Text style={{ fontSize: 12 }}>Malang, Jawa Timur</Text>
+              <Text style={{ fontSize: 12 }}>{this.state.location}</Text>
             </View>
           </View>
 
@@ -118,7 +127,7 @@ class ProfileScreen extends React.Component<Props> {
         <View
           style={{ flexDirection: "row", marginHorizontal: 12, marginTop: 24 }}
         >
-          <Button label="keluar" onPress={() => this.props.updateAuth(false)} />
+          <Button label="keluar" onPress={() => this.props.logout()} />
         </View>
       </View>
     );
@@ -127,12 +136,12 @@ class ProfileScreen extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => {
   return {
-    authState: state.authState,
+    auth: state.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateAuth: bindActionCreators(updateAuth, dispatch),
+  logout: bindActionCreators(logout, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
