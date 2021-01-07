@@ -24,160 +24,20 @@ import { TouchableOpacity as TouchableOpacityAndroid } from "react-native-gestur
 import { mapStyle } from "../resources/mapStyle";
 import * as geolib from "geolib";
 import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
-
-const DATA = [
-  {
-    id: "dsadwea-c1b1-46c2-aed5-3ad53abb28ba",
-    img:
-      "https://1.bp.blogspot.com/-NHCaArJ9muo/XPf2BmfY7MI/AAAAAAAACtU/_s6jlc34F1AZXcLg0Xe_KkVwcxAgBAfmgCLcBGAs/s1600/jejak-kenzie_jatim-park-1-01.jpg",
-    name: "Jawa Timur Park 1",
-    address: "Jl. Kartika No.2, Sisir, Kec. Batu, Kota Batu, Jawa Timur 65315",
-    day: "Setiap Hari",
-    time: "8:30AM–4:30PM",
-    telp: "+62341597777",
-    price: "Rp. 100.000",
-    description:
-      "Theme park featuring rides, a food court & exhibits/ performances of traditional Indonesian culture.",
-    location: "Kota Batu, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.884259,
-      longitude: 112.524668,
-    },
-  },
-  {
-    id: "dsaxas-c1b1-46c2-aed5-3ad53abb28ba",
-    img:
-      "https://macigo.com/wp-content/uploads/2017/09/jatim_park_1_macigo_3.jpg",
-    name: "Predator Fun Park",
-    address:
-      "Jl. Raya Tlekung No.315, Tlekung, Kec. Junrejo, Kota Batu, Jawa Timur 65327",
-    day: "Setiap Hari",
-    time: "8:30AM–4:30PM",
-    telp: "+62341531999",
-    price: "Rp. 50.000",
-    description:
-      "Reptile-themed amusement park with educational exhibits & shows, rides & pools with water slides.",
-    location: "Kota Batu, Jawa Timur",
-    percantage: 10,
-    distance: 0,
-    LatLng: {
-      latitude: -7.913006,
-      longitude: 112.54896,
-    },
-  },
-  {
-    id: "qewqq-c1b1-46c2-aed5-3ad53abb28ba",
-    img:
-      "https://1.bp.blogspot.com/-EysEc8W7sMg/XPyxff9VkVI/AAAAAAAACws/6l7IRiF5YMoXBn_CovWHuZFJGamvpB0XACLcBGAs/s1600/jejak-kenzie_jatim-park-3-01.jpg",
-    name: "Jawa Timur Park 3",
-    address:
-      "Jl. Ir. Soekarno No.144, Beji, Kec. Junrejo, Kota Batu, Jawa Timur 65236",
-    day: "Setiap Hari",
-    time: "12:00PM–4:30PM",
-    telp: "+623415103030",
-    price: "Rp. 40.000 - Rp. 150.000",
-    description:
-      "Popular amusement park with a dinosaur attraction, wax museum, concessions & technology exhibits.",
-    location: "Kota Batu, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.897144,
-      longitude: 112.553632,
-    },
-  },
-  {
-    id: "deada-c1b1-46c2-aed5-3ad53abb28ba",
-    img: "https://gomuslim.co.id/images/post/218Museum-Brawijaya-Malang.jpg",
-    name: "Brawijaya Museum",
-    address:
-      "Jl. Ijen No.25 A, Gading Kasri, Kec. Klojen, Kota Malang, Jawa Timur 65115",
-    day: "Setiap Hari",
-    time: "8:00AM–3:00PM",
-    telp: "+62341562394",
-    price: "Rp. 5.000",
-    description:
-      "Artifacts & exhibits on Indonesia's war of independence, including military weapons & tanks.",
-    location: "Malang, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.972111,
-      longitude: 112.621256,
-    },
-  },
-  {
-    id: "deada-c1b1-46c2-aed5-dsadsads",
-    img:
-      "https://cdns.klimg.com/newshub.id/news/2016/04/16/55114/menguak-asal-usul-penamaan-candi-badut-candi-tertua-di-jawa-timur-160416r.jpg",
-    name: "Candi Badut",
-    address:
-      "Jalan Candi 5D, Karangwidoro, Dau, Doro, Karangwidoro, Kec. Dau, Kota Malang, Jawa Timur 65146",
-    day: "Setiap Hari",
-    time: "8:00AM–3:00PM",
-    telp: "",
-    price: "Rp. 10.000",
-    description:
-      "Artifacts & exhibits on Indonesia's war of independence, including military weapons & tanks.",
-    location: "Malang, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.957781,
-      longitude: 112.598634,
-    },
-  },
-  {
-    id: "ewqewq-c1b1-46c2-aed5-3ad53abb28ba",
-    img:
-      "https://www.superradio.id/wp-content/uploads/2019/07/IMG20190622114804.jpg",
-    name: "Museum Zoologi Frater Vianney",
-    address:
-      "Jl. Raya No.7, Doro, Karangwidoro, Kec. Dau, Kota Malang, Jawa Timur 65146",
-    day: "Setiap Hari",
-    time: "7:00AM–2:00PM",
-    telp: "+62341558965",
-    price: "Rp. 10.000 - Rp. 20.000",
-    description:
-      "Artifacts & exhibits on Indonesia's war of independence, including military weapons & tanks.",
-    location: "Malang, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.958649,
-      longitude: 112.596248,
-    },
-  },
-  {
-    id: "dsadsa-c1b1-46c2-aed5-3ad53abb28ba",
-    img:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTfMRdKM0basbOlm_qy6EJ9qXaWKs4k_PWctg&usqp=CAU",
-    name: "Candi Singosari",
-    address:
-      "Jl. Kertanegara No.148, Candirenggo, Kec. Singosari, Malang, Jawa Timur 65153",
-    day: "Setiap Hari",
-    time: "7:00AM–5:00PM",
-    telp: "",
-    price: "Rp. 5.000",
-    description:
-      "Candi Singasari merupakan candi Hindu - Buddha peninggalan bersejarah dari Kerajaan Singasari berlokasi di Desa Candirenggo, Kecamatan Singosari, Kabupaten Malang, Jawa Timur, Indonesia, sekitar 10 km dari Kota Malang. Candi ini berada pada lembah di antara Pegunungan Tengger dan Gunung Arjuna pada ketinggian 512m di atas permukaan laut. Cara pembuatan Candi Singasari ini menggunakan sistem menumpuk batu andesit hingga ketinggian tertentu selanjutnya diteruskan dengan mengukir dari atas baru turun ke bawah.",
-    location: "Malang, Jawa Timur",
-    percantage: Math.floor(Math.random() * Math.floor(100)),
-    distance: 0,
-    LatLng: {
-      latitude: -7.887989,
-      longitude: 112.663757,
-    },
-  },
-];
+import { WisataList } from "../store/wisata/types";
+import { bindActionCreators } from "redux";
+import { fetchNearby } from "../store/wisata/actions";
+import { connect } from "react-redux";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  wisatas: WisataList;
+  fetchNearby: (coordinate: { long: number; lat: number }) => {};
 }
 
-export default class DicoverScreen extends React.Component<Props> {
+var DATA = [];
+
+class DicoverScreen extends React.Component<Props> {
   sheetRef = null;
   state = {
     errorMsg: "",
@@ -196,6 +56,16 @@ export default class DicoverScreen extends React.Component<Props> {
 
   async _getCurrentLocation() {
     let location = await Location.getCurrentPositionAsync({});
+
+    let coordinates: { long: number; lat: number } = {
+      lat: location.coords.latitude,
+      long: location.coords.longitude,
+    };
+
+    let res = await this.props.fetchNearby(coordinates);
+    console.log(res);
+    DATA = res;
+
     this.setState({
       mapRegion: {
         latitude: location.coords.latitude,
@@ -312,8 +182,13 @@ export default class DicoverScreen extends React.Component<Props> {
               </Text>
             </View>
           )}
-          data={DATA.sort((a, b) => a.distance - b.distance)}
+          data={DATA} //.sort((a, b) => a.distance - b.distance)}
           keyExtractor={(item, index) => item.id}
+          ListEmptyComponent={() => (
+            <Text style={{ textAlign: "center" }}>
+              (Tidak ada wisata di sekitar)
+            </Text>
+          )}
           renderItem={({ item }) =>
             Platform.select({
               ios: <Item item={item} navigation={this.props.navigation} />,
@@ -322,8 +197,8 @@ export default class DicoverScreen extends React.Component<Props> {
               ),
             })
           }
-          style={{ flex: 1 }}
           contentContainerStyle={{
+            flex: 1,
             backgroundColor: colors.WHITE,
             paddingHorizontal: 16,
           }}
@@ -331,46 +206,6 @@ export default class DicoverScreen extends React.Component<Props> {
       </View>
     );
   }
-
-  // Render Content Bottom Sheet
-  renderContent = () => (
-    <View
-      style={{
-        backgroundColor: "white",
-        padding: 16,
-        paddingBottom: 0,
-        height: Dimensions.get("screen").height - 140,
-        alignItems: "center",
-      }}
-    >
-      <View
-        style={{
-          width: 76,
-          height: 8,
-          backgroundColor: "#CCCCCC",
-          borderRadius: 10,
-          marginBottom: 12,
-        }}
-      />
-      <Text style={{ fontSize: 18, fontWeight: "bold", color: "#777777" }}>
-        Jelajah sekitar
-      </Text>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={DATA.sort((a, b) => a.distance - b.distance)}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item }) => {
-          return Platform.select({
-            ios: <Item item={item} navigation={this.props.navigation} />,
-            android: (
-              <ItemAndroid item={item} navigation={this.props.navigation} />
-            ),
-          });
-        }}
-        style={{ width: "100%", marginTop: 24, flex: 1 }}
-      />
-    </View>
-  );
 }
 
 interface ItemProps {
@@ -399,18 +234,18 @@ const Item = ({ item, navigation }: ItemProps) => (
           {item.name}
         </Text>
         <View style={{ marginTop: 6 }}>
-          <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text>
+          {/* <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text> */}
         </View>
         <View style={{ marginTop: 6, flexDirection: "row" }}>
           <Ionicons name="md-people" size={16} color={colors.BLUE_DEEP} />
           <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
-            {item.percantage + "% ramai"}
+            {/* {item.percantage + "% ramai"} */}
           </Text>
         </View>
         <View style={{ marginTop: 6, flexDirection: "row" }}>
           <FontAwesome5 name="route" size={16} color={colors.BLUE_DEEP} />
           <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
-            {item.distance.toFixed(2) + " km"}
+            {/* {item.distance.toFixed(2) + " km"} */}
           </Text>
         </View>
       </View>
@@ -448,7 +283,7 @@ const ItemAndroid = ({ item, navigation }: ItemProps) => (
           {item.name}
         </Text>
         <View style={{ marginTop: 6 }}>
-          <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text>
+          {/* <Text style={styles.ticketCardTextSubTitle}>{item.location}</Text> */}
         </View>
         <View style={{ marginTop: 6, flexDirection: "row" }}>
           <Ionicons name="md-people" size={16} color={colors.BLUE_DEEP} />
@@ -459,7 +294,7 @@ const ItemAndroid = ({ item, navigation }: ItemProps) => (
         <View style={{ marginTop: 6, flexDirection: "row" }}>
           <FontAwesome5 name="route" size={16} color={colors.BLUE_DEEP} />
           <Text style={[styles.ticketCardTextSubTitle, { marginLeft: 6 }]}>
-            {item.distance.toFixed(2) + " km"}
+            {/* {item.distance.toFixed(2) + " km"} */}
           </Text>
         </View>
       </View>
@@ -475,3 +310,15 @@ const ItemAndroid = ({ item, navigation }: ItemProps) => (
     </View>
   </View>
 );
+
+const mapStateToProps = (state: any) => {
+  return {
+    wisatas: state.wisatas,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  fetchNearby: bindActionCreators(fetchNearby, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DicoverScreen);

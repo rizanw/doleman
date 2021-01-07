@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import thunk from "redux-thunk";
 import { authReducer } from "./auth";
 import { checkLoggedInMiddleware } from "./middleware";
+import { wisataListReducer } from "./wisata";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  wisatas: wisataListReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
