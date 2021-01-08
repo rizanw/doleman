@@ -1,26 +1,27 @@
 export interface Wisata {
-  label: String;
-  name: String;
-  description: String;
-  phone: String;
+  label: string;
+  name: string;
+  description: string;
+  phone: string;
   time_op: {
-    day: [String];
-    hour: [String];
+    day: [string];
+    hour: [string];
   };
   address: {
-    street: String;
-    city: String;
+    street: string;
+    city: string;
     province: String;
   };
   location: {
-    coordinate: [Number];
-    type: String;
+    coordinate: [];
+    type: string;
   };
-  images?: [String];
+  images?: [string];
   distance?: number;
 }
 
 export const FETCH_NEARBY = "wisata/FETCH_NEARBY";
+export const FETCH_BY_ID = "wisata/FETCH_BY_ID";
 export const UPDATE_DISTANCE = "wisata/UPDATE_DISTANCE";
 
 export interface WisataList {
@@ -37,4 +38,9 @@ interface UpdateDistance {
   payload: Wisata;
 }
 
-export type WisataActionState = FetchNearby | UpdateDistance;
+interface FetchWisata {
+  type: typeof FETCH_BY_ID;
+  payload: Wisata;
+}
+
+export type WisataActionState = FetchNearby | UpdateDistance | FetchWisata;

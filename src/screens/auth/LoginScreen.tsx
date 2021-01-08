@@ -1,16 +1,12 @@
-import React, { createRef } from "react";
+import React from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
 import {
-  CommonActions,
   NavigationProp,
   RouteProp,
 } from "@react-navigation/native";
@@ -18,7 +14,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { login } from "../../store/auth/actions";
 import { UserIn } from "../../store/auth/types";
-import Spinner from "react-native-loading-spinner-overlay";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -45,12 +40,6 @@ class LoginScreen extends React.Component<Props> {
     };
 
     let req = await this.props.login(user);
-    
-    setInterval(() => {
-      this.setState({
-        spinner: !this.state.spinner,
-      });
-    }, 3000);
 
     if (req.success == undefined) {
       alert("Periksa kembali email dan password anda!");
@@ -63,20 +52,16 @@ class LoginScreen extends React.Component<Props> {
     } else {
       this.setState({ isInvalid: false });
     }
-
-    if (!this.state.isInvalid) {
+    if (req.roles[0] == "ROLE_WISATAWAN") {
       this.props.navigation.navigate("ProfileStack");
+    } else {
+      this.props.navigation.navigate("Admin");
     }
   }
 
   render() {
     return (
-      <View style={[styles.container]}>
-        <Spinner
-          visible={this.state.spinner}
-          textContent={"Loading..."}
-          textStyle={{ color: "#fff" }}
-        />
+      <View style={[styles.container]}> 
         <Text style={styles.loginTitle}>Selamat Datang!</Text>
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
@@ -102,7 +87,7 @@ class LoginScreen extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = () => {
   return {};
 };
 

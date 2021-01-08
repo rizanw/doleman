@@ -13,6 +13,7 @@ const initialState: User = {
   roles: "",
   accessToken: undefined,
   geocoding: undefined,
+  adminOn: undefined,
 };
 
 export const authReducer = (
@@ -42,6 +43,7 @@ export const authReducer = (
         email: action.payload.name,
         roles: action.payload.roles[0],
         accessToken: action.payload.accessToken,
+        adminOn: action.payload.adminOn,
       };
     case LOGOUT_USER:
       return initialState;

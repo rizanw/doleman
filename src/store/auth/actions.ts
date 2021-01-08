@@ -36,7 +36,7 @@ export function login(user: UserIn) {
   };
 }
 
-export function logout() {
+export function logout() { 
   return {
     type: LOGOUT_USER,
   };

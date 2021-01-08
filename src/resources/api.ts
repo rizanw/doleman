@@ -1,7 +1,7 @@
 //API URL
 export const API_URL = process.env.API_URL
   ? process.env.API_URL
-  : "https://b9766f0f4ab5.ngrok.io/api";
+  : "https://e441c5cd6559.ngrok.io/api";
 
 const BASE = {
   auth: `${API_URL}/auth`,
@@ -19,4 +19,5 @@ export const AUTH = {
 export const WISATA = {
   getAll: `${BASE.wisata}/all`,
   nearby: `${BASE.wisata}/nearby`, 
+  fetchById: `${BASE.wisata}/`, 
 };
