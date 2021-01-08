@@ -23,3 +23,16 @@ export const fetchPost = async (
     }
   }
 };
+
+export const fetchGet = async (uri: string) => {
+  try {
+    const res = await axios.get(uri);
+    checkLogin(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.message == "session-expired") {
+      throw err;
+    }
+  }
+};

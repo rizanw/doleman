@@ -8,6 +8,7 @@ import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
 import { register } from "../../store/auth/actions";
 import { UserReg } from "../../store/auth/types";
+import Spinner from "react-native-loading-spinner-overlay";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -21,6 +22,7 @@ class RegisterScreen extends React.Component<Props> {
     passwordConfirm: "",
     name: "",
     isInvalid: true,
+    spinner: false,
   };
 
   async register() {
@@ -45,7 +47,13 @@ class RegisterScreen extends React.Component<Props> {
     };
 
     let req = await this.props.register(user);
-    console.log(req);
+
+    setInterval(() => {
+      this.setState({
+        spinner: !this.state.spinner,
+      });
+    }, 3000);
+
     if (!req.success) {
       console.log("invalid");
       this.setState({ isInvalid: true });
@@ -58,12 +66,6 @@ class RegisterScreen extends React.Component<Props> {
     }
 
     if (!this.state.isInvalid) {
-      this.props.navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "MainTab" }],
-        })
-      );
       this.props.navigation.navigate("ProfileStack");
     }
   }
@@ -74,6 +76,11 @@ class RegisterScreen extends React.Component<Props> {
         style={[styles.container]}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
+        <Spinner
+          visible={this.state.spinner}
+          textContent={"Loading..."}
+          textStyle={{ color: "#fff" }}
+        />
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
         >

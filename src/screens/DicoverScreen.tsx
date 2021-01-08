@@ -46,11 +46,6 @@ class DicoverScreen extends React.Component<Props> {
   };
 
   async componentDidMount() {
-    let { status } = await Location.requestPermissionsAsync();
-    if (status !== "granted") {
-      this.setState({ errorMsg: "Permission to access location was denied" });
-    }
-
     await this._getCurrentLocation();
   }
 
@@ -63,7 +58,6 @@ class DicoverScreen extends React.Component<Props> {
     };
 
     let res = await this.props.fetchNearby(coordinates);
-    console.log(res);
     DATA = res;
 
     this.setState({
@@ -75,25 +69,25 @@ class DicoverScreen extends React.Component<Props> {
       },
     });
 
-    function updateDistance(loc) {
-      return function (obj) {
-        return Object.assign(obj, {
-          distance:
-            geolib.getDistance(
-              obj.LatLng,
-              {
-                latitude: loc.coords.latitude,
-                longitude: loc.coords.longitude,
-              },
-              1
-            ) * 0.001,
-        });
-      };
-    }
+    // function updateDistance(loc) {
+    //   return function (obj) {
+    //     return Object.assign(obj, {
+    //       distance:
+    //         geolib.getDistance(
+    //           obj.LatLng,
+    //           {
+    //             latitude: loc.coords.latitude,
+    //             longitude: loc.coords.longitude,
+    //           },
+    //           1
+    //         ) * 0.001,
+    //     });
+    //   };
+    // }
 
-    this.setState((prevState) => ({
-      destinations: prevState.destinations.map(updateDistance(location)),
-    }));
+    // this.setState((prevState) => ({
+    //   destinations: prevState.destinations.map(updateDistance(location)),
+    // }));
   }
 
   _handleMapRegionChange(mapRegion: any) {
@@ -198,7 +192,6 @@ class DicoverScreen extends React.Component<Props> {
             })
           }
           contentContainerStyle={{
-            flex: 1,
             backgroundColor: colors.WHITE,
             paddingHorizontal: 16,
           }}

@@ -2,6 +2,7 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
+  UPDATE_GEOCODING,
   User,
   UserActionState,
 } from "./types";
@@ -11,6 +12,7 @@ const initialState: User = {
   email: "",
   roles: "",
   accessToken: undefined,
+  geocoding: undefined,
 };
 
 export const authReducer = (
@@ -18,6 +20,13 @@ export const authReducer = (
   action: UserActionState
 ): User => {
   switch (action.type) {
+    case UPDATE_GEOCODING:
+      return {
+        ...state,
+        geocoding: action.payload.address.city
+          ? action.payload.address.city
+          : action.payload.address.county + ", " + action.payload.address.state,
+      };
     case REGISTER_USER:
       return {
         ...state,

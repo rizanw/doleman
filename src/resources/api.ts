@@ -1,7 +1,7 @@
 //API URL
 export const API_URL = process.env.API_URL
   ? process.env.API_URL
-  : "https://70fbd4b65c2c.ngrok.io/api";
+  : "https://b9766f0f4ab5.ngrok.io/api";
 
 const BASE = {
   auth: `${API_URL}/auth`,

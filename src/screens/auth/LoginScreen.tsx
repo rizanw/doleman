@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { login } from "../../store/auth/actions";
 import { UserIn } from "../../store/auth/types";
+import Spinner from "react-native-loading-spinner-overlay";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -30,9 +31,10 @@ class LoginScreen extends React.Component<Props> {
     email: "",
     password: "",
     isInvalid: true,
+    spinner: false,
   };
 
-  async _LoginCheck() {
+  async login() {
     if (!this.state.email || !this.state.password) {
       alert("Isi Email dan Password dengan benar!");
     }
@@ -43,6 +45,16 @@ class LoginScreen extends React.Component<Props> {
     };
 
     let req = await this.props.login(user);
+    
+    setInterval(() => {
+      this.setState({
+        spinner: !this.state.spinner,
+      });
+    }, 3000);
+
+    if (req.success == undefined) {
+      alert("Periksa kembali email dan password anda!");
+    }
 
     if (!req.success) {
       console.log("invalid");
@@ -53,20 +65,18 @@ class LoginScreen extends React.Component<Props> {
     }
 
     if (!this.state.isInvalid) {
-      this.props.navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "MainTab" }],
-        })
-      );
       this.props.navigation.navigate("ProfileStack");
     }
   }
 
   render() {
-    console.log(this.props.route.params);
     return (
       <View style={[styles.container]}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={"Loading..."}
+          textStyle={{ color: "#fff" }}
+        />
         <Text style={styles.loginTitle}>Selamat Datang!</Text>
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
@@ -85,7 +95,7 @@ class LoginScreen extends React.Component<Props> {
           />
         </View>
         <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
-          <Button label="masuk" onPress={() => this._LoginCheck()} />
+          <Button label="masuk" onPress={() => this.login()} />
         </View>
       </View>
     );
