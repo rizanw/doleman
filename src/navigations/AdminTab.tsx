@@ -20,11 +20,13 @@ import DirectScreen from "../screens/admin/DirectScreen";
 import OnlineScreen from "../screens/admin/OnlineScreen";
 import ProgressCircle from "react-native-progress-circle";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWisata } from "../store/wisata/actions";
+import { fetchStatistic, fetchWisata } from "../store/wisata/actions";
 import { User } from "../store/auth/types";
 import { AppState } from "../store";
 import { logout } from "../store/auth/actions";
 import { Wisata } from "../store/wisata/types";
+import { NavigationProp } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const DATA = [
   {
@@ -42,22 +44,36 @@ const wait = (timeout: number) => {
   });
 };
 
-export default function AdminTabs() {
-  const [masuk, setMasuk] = useState(260);
-  const [keluar, setKeluar] = useState(20);
-  const [maks, setMaks] = useState(1000);
-  const [refreshing, setRefreshing] = React.useState(false);
-  const dispatch = useDispatch();
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
+
+export default function AdminTabs({ navigation }: Props) {
   const user: User = useSelector((state: AppState) => state.auth);
   const wisata: Wisata = useSelector((state: AppState) => state.wisata);
+  const [masuk, setMasuk] = useState(wisata.in ? wisata.in : 0);
+  const [keluar, setKeluar] = useState(wisata.total ? wisata.total - masuk : 0);
+  const [maks, setMaks] = useState(wisata.capacity ? wisata.capacity : 0);
+  const [percentage, setPercentage] = useState((masuk / maks) * 100);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const dispatch = useDispatch();
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     //@ts-ignore
     let req = await dispatch(fetchWisata(user.adminOn));
     //@ts-ignore
+    let req1 = await dispatch(fetchStatistic(user.adminOn));
+    setMasuk(wisata.in ? wisata.in : 0);
+    setKeluar(wisata.total ? wisata.total - masuk : 0);
+    setMaks(wisata.capacity ? wisata.capacity : 0);
+    setPercentage((masuk / maks) * 100);
+    console.log(percentage);
+
+    //@ts-ignore
     if (req.success) {
       setRefreshing(false);
+      //@ts-ignore
     } else {
       wait(2000).then(() => setRefreshing(false));
     }
@@ -119,19 +135,40 @@ export default function AdminTabs() {
           onPress={Keyboard.dismiss}
           style={{ backgroundColor: "white" }}
         >
-          <View>
-            <Text style={[styles.ticketTitle, { marginVertical: 10 }]}>
+          <View
+            style={{
+              flexDirection: "row", 
+              alignItems: "center", 
+            }}
+          >
+            <Text style={[styles.ticketTitle, { marginVertical: 10, flex: 1 }]}>
               {wisata.name}
             </Text>
-            <TouchableOpacity onPress={() => dispatch(logout())}>
-              <Text>logout</Text>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(logout());
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "MainTab" }],
+                });
+              }}
+            >
+              <MaterialCommunityIcons
+                name="logout"
+                size={24}
+                color={colors.BITTERSWEET}
+              />
             </TouchableOpacity>
           </View>
           <View style={[styles.backgroundGrey, { marginHorizontal: 0 }]}>
             <Text style={styles.backgroundGreyText}>
               Statistik Hari Ini ({hari}, {date})
             </Text>
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={[styles.backgroundGreyText, { flex: 2 }]}>
@@ -161,7 +198,7 @@ export default function AdminTabs() {
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <View style={{ alignItems: "center" }}>
                   <ProgressCircle
-                    percent={(masuk / maks) * 100}
+                    percent={percentage}
                     radius={40}
                     borderWidth={6}
                     color={colors.BLUE_NEON}
@@ -169,7 +206,7 @@ export default function AdminTabs() {
                     bgColor={"#F7F7F7"}
                   >
                     <Text style={{ fontSize: 18 }}>
-                      {(masuk / maks) * 100 + "%"}
+                      {percentage.toFixed(1) + "%"}
                     </Text>
                   </ProgressCircle>
                   <Text style={[styles.backgroundGreyText, { marginTop: 10 }]}>

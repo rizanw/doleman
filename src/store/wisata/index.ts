@@ -1,6 +1,8 @@
 import {
   FETCH_BY_ID,
   FETCH_NEARBY,
+  FETCH_STATISTIC,
+  INC_STATISTIC,
   Wisata,
   WisataActionState,
   WisataList,
@@ -53,6 +55,20 @@ export function wisataReducer(
   switch (action.type) {
     case FETCH_BY_ID:
       return action.payload;
+    case FETCH_STATISTIC:
+      return {
+        ...state,
+        in: action.payload.in,
+        total: action.payload.total,
+        capacity: action.payload.capacity,
+      };
+    case INC_STATISTIC:
+      return {
+        ...state,
+        in: action.payload.in,
+        total: action.payload.total,
+        capacity: action.payload.capacity,
+      };
     default:
       return state;
   }

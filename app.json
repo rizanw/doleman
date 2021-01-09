@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "privacy": "public",
     "orientation": "portrait",
-    "description": "Ini adalah demo aplikasi doleman untuk Hology 3.0. Gunakan aplikasi expo dari playstore untuk scan QR yang ada.",
+    "description": "Wisata aman, hati nyaman!",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

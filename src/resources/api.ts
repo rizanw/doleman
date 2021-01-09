@@ -1,7 +1,7 @@
 //API URL
 export const API_URL = process.env.API_URL
   ? process.env.API_URL
-  : "https://e441c5cd6559.ngrok.io/api";
+  : "https://doleman.herokuapp.com/api";
 
 const BASE = {
   auth: `${API_URL}/auth`,
@@ -18,6 +18,8 @@ export const AUTH = {
 
 export const WISATA = {
   getAll: `${BASE.wisata}/all`,
-  nearby: `${BASE.wisata}/nearby`, 
-  fetchById: `${BASE.wisata}/`, 
+  nearby: `${BASE.wisata}/nearby`,
+  fetchById: `${BASE.wisata}/`,
+  fetchStatisticById: `${BASE.wisata}/statistic`,
+  addStatisticById: `${BASE.wisata}/statistic/add`,
 };

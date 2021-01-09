@@ -1,24 +1,21 @@
 import React from "react";
-import {
-  Text,
-  View,
-} from "react-native";
+import { Text, View } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
-import {
-  NavigationProp,
-  RouteProp,
-} from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { login } from "../../store/auth/actions";
-import { UserIn } from "../../store/auth/types";
+import { User, UserIn } from "../../store/auth/types";
+import { fetchWisata } from "../../store/wisata/actions";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
   login: (user: UserIn) => {};
+  fetchWisata: (id: string | undefined) => {};
+  auth: User;
 }
 
 class LoginScreen extends React.Component<Props> {
@@ -53,15 +50,22 @@ class LoginScreen extends React.Component<Props> {
       this.setState({ isInvalid: false });
     }
     if (req.roles[0] == "ROLE_WISATAWAN") {
-      this.props.navigation.navigate("ProfileStack");
+      this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: "ProfileStacks" }],
+      });
     } else {
-      this.props.navigation.navigate("Admin");
+      await this.props.fetchWisata(this.props.auth.adminOn);
+      this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: "Admin" }],
+      });
     }
   }
 
   render() {
     return (
-      <View style={[styles.container]}> 
+      <View style={[styles.container]}>
         <Text style={styles.loginTitle}>Selamat Datang!</Text>
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
@@ -87,12 +91,15 @@ class LoginScreen extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth,
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
   login: bindActionCreators(login, dispatch),
+  fetchWisata: bindActionCreators(fetchWisata, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
