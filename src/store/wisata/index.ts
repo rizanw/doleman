@@ -44,8 +44,10 @@ const initialState: Wisata = {
     coordinate: [],
     type: "",
   },
-  images: [""],
-  distance: 0,
+  images: [""], 
+  in: 0,
+  total: 0,
+  capacity: 0,
 };
 
 export function wisataReducer(

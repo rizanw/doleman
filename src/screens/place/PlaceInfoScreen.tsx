@@ -25,11 +25,12 @@ class PlaceInfoScreen extends React.Component<Props> {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.placeInfoTitle}>Alamat dan Telepon</Text>
-            <Text numberOfLines={2} style={styles.placeInfoText}>
-              Jl. Kertanegara No.148, Candirenggo, Kec. Singosari, Malang, Jawa
-              Timur
+            <Text numberOfLines={4} style={styles.placeInfoText}>
+              {this.props.route.params?.item.address.street}
             </Text>
-            <Text style={styles.placeInfoText}>+62341595007</Text>
+            <Text style={styles.placeInfoText}>
+              {this.props.route.params?.item.phone}
+            </Text>
           </View>
         </View>
         <View style={styles.placeInfoContainer}>
@@ -42,12 +43,18 @@ class PlaceInfoScreen extends React.Component<Props> {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.placeInfoTitle}>Jam Operasi</Text>
-            <Text style={styles.placeInfoText}>
-              {this.props.route.params?.item.day}
-            </Text>
-            <Text style={styles.placeInfoText}>
-              {this.props.route.params?.item.time}
-            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1 }}>
+                {this.props.route.params?.item.time_op.day.map((data: any) => (
+                  <Text style={styles.placeInfoText}>{data}</Text>
+                ))}
+              </View>
+              <View style={{ flex: 2 }}>
+                {this.props.route.params?.item.time_op.hour.map((data: any) => (
+                  <Text style={styles.placeInfoText}>{data}</Text>
+                ))}
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.placeInfoContainer}>

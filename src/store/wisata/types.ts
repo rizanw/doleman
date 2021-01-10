@@ -13,11 +13,12 @@ export interface Wisata {
     province: String;
   };
   location: {
-    coordinate: [];
+    coordinates: [];
     type: string;
   };
   images?: [string];
   distance?: number;
+  crowdedness?: number;
   in?: number;
   total?: number;
   capacity?: number;

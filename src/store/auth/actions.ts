@@ -32,7 +32,7 @@ export function login(user: UserIn) {
   return async (dispatch: Dispatch) => {
     const res = await fetchPost(AUTH.login, user);
     dispatch({ type: LOGIN_USER, payload: res });
-    return res;
+    return res; 
   };
 }
 

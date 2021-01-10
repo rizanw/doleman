@@ -1,6 +1,6 @@
-import { CommonActions, NavigationProp } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "../../components/Button";
@@ -8,7 +8,6 @@ import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
 import { register } from "../../store/auth/actions";
 import { UserReg } from "../../store/auth/types";
-import Spinner from "react-native-loading-spinner-overlay";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -47,13 +46,7 @@ class RegisterScreen extends React.Component<Props> {
     };
 
     let req = await this.props.register(user);
-
-    setInterval(() => {
-      this.setState({
-        spinner: !this.state.spinner,
-      });
-    }, 3000);
-
+ 
     if (!req.success) {
       console.log("invalid");
       this.setState({ isInvalid: true });
@@ -75,12 +68,7 @@ class RegisterScreen extends React.Component<Props> {
       <KeyboardAvoidingView
         style={[styles.container]}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <Spinner
-          visible={this.state.spinner}
-          textContent={"Loading..."}
-          textStyle={{ color: "#fff" }}
-        />
+      > 
         <View
           style={{ paddingHorizontal: 16, paddingVertical: 24, width: "100%" }}
         >
@@ -117,7 +105,7 @@ class RegisterScreen extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = () => {
   return {};
 };
 

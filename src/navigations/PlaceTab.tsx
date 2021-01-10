@@ -24,7 +24,7 @@ export default function PlaceTabs({ navigation, route }: Props) {
       showsVerticalScrollIndicator={false}
     >
       <Image
-        source={{ uri: route.params?.item.img }}
+        source={{ uri: route.params?.item.images[0] }}
         style={{ width: "100%", height: 250, resizeMode: "cover" }}
       />
       <View style={{ flexDirection: "row" }}>
@@ -39,7 +39,10 @@ export default function PlaceTabs({ navigation, route }: Props) {
           >
             <Ionicons name="md-people" size={18} color={colors.BLUE_DEEP} />
             <Text style={styles.placeSubTitle}>
-              {route.params?.item.percantage}% ramai
+              {route.params?.item.crowdedness
+                ? route.params?.item.crowdedness
+                : 0}{" "}
+              % ramai
             </Text>
           </View>
         </View>
@@ -93,7 +96,11 @@ export default function PlaceTabs({ navigation, route }: Props) {
           component={PlaceInfoScreen}
           initialParams={{ item: route.params?.item }}
         />
-        <Tab.Screen name="Gallery" component={PlaceGalleryScreen} />
+        <Tab.Screen
+          name="Gallery"
+          component={PlaceGalleryScreen}
+          initialParams={{ item: route.params?.item }}
+        />
       </Tab.Navigator>
     </ScrollView>
   );

@@ -5,6 +5,15 @@ import * as Location from "expo-location";
 import { Provider } from "react-redux";
 import { persistor, store } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
+import * as Sentry from "sentry-expo";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  enableInExpoDevelopment: true,
+  debug: true,  
+});
+ 
+Sentry.Native.nativeCrash();
 
 export default class App extends React.Component {
   async componentDidMount() {

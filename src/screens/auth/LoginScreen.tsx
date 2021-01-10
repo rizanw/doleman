@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import { styles } from "../../resources/styles";
@@ -38,21 +38,30 @@ class LoginScreen extends React.Component<Props> {
 
     let req = await this.props.login(user);
 
-    if (req.success == undefined) {
-      alert("Periksa kembali email dan password anda!");
+    //@ts-ignore
+    if (!req) {
+      Alert.alert("Gagal Login!", "Periksa kembali email dan password anda!");
     }
 
+    //@ts-ignore
     if (!req.success) {
       console.log("invalid");
       this.setState({ isInvalid: true });
-      alert("Periksa kembali email dan password anda!");
+      Alert.alert("Gagal Login!", "Periksa kembali email dan password anda!");
     } else {
       this.setState({ isInvalid: false });
     }
+
+    //@ts-ignore
     if (req.roles[0] == "ROLE_WISATAWAN") {
       this.props.navigation.reset({
         index: 0,
-        routes: [{ name: "ProfileStacks" }],
+        routes: [
+          {
+            name: "MainTab",
+            state: { routes: [{ name: "ProfileStack" }] },
+          },
+        ],
       });
     } else {
       await this.props.fetchWisata(this.props.auth.adminOn);
