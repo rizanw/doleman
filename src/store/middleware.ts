@@ -1,5 +1,6 @@
 import { logout } from "./auth/actions";
-// import Timer from "../Timer"; 
+import { cleanupTicket } from "./ticket/actions";
+// import Timer from "../Timer";
 
 export const loggerMiddleware = (store: any) => (next: any) => (
   action: any
@@ -22,6 +23,7 @@ export const checkLoggedInMiddleware = (store: any) => (next: any) => (
       // Snackbar.show({ text: "Session expired" });
       // Timer.stopService();
       next(logout());
+      next(cleanupTicket());
     }
   });
 };

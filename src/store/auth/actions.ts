@@ -9,6 +9,7 @@ import {
 } from "./types";
 import { AUTH } from "../../resources/api";
 import { fetchGet, fetchPost } from "../../utils/fetch";
+import { cleanupTicket } from "../ticket/actions";
 
 export function updateGeo(coords: { lat: number; lon: number }) {
   return async (dispatch: Dispatch) => {
@@ -32,11 +33,12 @@ export function login(user: UserIn) {
   return async (dispatch: Dispatch) => {
     const res = await fetchPost(AUTH.login, user);
     dispatch({ type: LOGIN_USER, payload: res });
-    return res; 
+    return res;
   };
 }
 
-export function logout() { 
+export function logout() {
+  cleanupTicket();
   return {
     type: LOGOUT_USER,
   };

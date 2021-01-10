@@ -13,16 +13,23 @@ import RNPickerSelect from "react-native-picker-select";
 import { AntDesign } from "@expo/vector-icons";
 import Button from "../../components/Button";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { User } from "../../store/auth/types";
+import { Ticket } from "../../store/ticket/types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { buyTicket } from "../../store/ticket/actions";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
+  auth: User;
+  buyTicket: (ticket: Ticket) => any;
 }
 
 class BookingScreen extends React.Component<Props> {
   state = {
     isDatePickerVisible: false,
-    date: new Date().toDateString(),
+    date: new Date(),
     ticket: 0,
     qty: 0,
     location: this.props.route.params?.item.name,
@@ -38,43 +45,71 @@ class BookingScreen extends React.Component<Props> {
   };
 
   handleConfirm = (date: Date) => {
-    console.warn("A date has been picked: ", date);
-    this.setState({ date: date.toDateString() });
+    if (date.getDate() < new Date().getDate()) {
+      Alert.alert("Perhatian!", "Tidak bisa memilih hari yang telah berlalu", [
+        { text: "OK", onPress: () => this.setState({ date: this.state.date }) },
+      ]);
+    } else {
+      this.setState({ date: date });
+    }
     this.hideDatePicker();
   };
 
   componentDidMount() {
-    if (this.props.route.params?.item.name == "Jawa Timur Park 3") {
-      this.setState({
-        ticketPrice: [
-          { label: "Tiket Regular (Rp. 50.000)", value: 50000 },
-          { label: "Tiket VIP (Rp. 100.000)", value: 100000 },
-          { label: "Tiket Premium (Rp. 150.000)", value: 150000 },
-        ],
-      });
-    } else if (
-      this.props.route.params?.item.name == "Museum Zoologi Frater Vianney"
-    ) {
-      this.setState({
-        ticketPrice: [
-          { label: "Tiket Sekolah (Rp. 10.000)", value: 10000 },
-          { label: "Tiket Kuliah (Rp. 20.000)", value: 20000 },
-        ],
-      });
-    } else {
-      this.setState({
-        ticketPrice: [
+    const price = this.props.route.params?.item.rerata_biaya
+      .replace(/^\D+/g, "")
+      .match(/\d/g)
+      .join("")
+      .slice(0, -2);
+    this.setState({
+      ticketPrice: [
+        {
+          label:
+            "Tiket Regular (" +
+            this.props.route.params?.item.rerata_biaya +
+            ")",
+          value: price,
+        },
+      ],
+    });
+  }
+
+  buyTicket() {
+    const ticket: Ticket = {
+      user: this.props.auth.email,
+      wisata: this.props.route.params?.item.name,
+      code: "",
+      date: this.state.date,
+      quantity: this.state.qty,
+      price: this.state.ticket,
+      status: "UNPAID",
+    };
+
+    if (this.state.ticket == 0 || this.state.qty == 0) {
+      Alert.alert(
+        "Perhatikan!",
+        "Pastikan Anda mengisi form dengan benar!",
+        [
           {
-            label: "Tiket (" + this.props.route.params?.item.price + ")",
-            value: this.props.route.params?.item.price.replace(/\D/g,''),
+            text: "Ok",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
           },
         ],
+        { cancelable: false }
+      );
+    } else {
+      const req: any = this.props.buyTicket(ticket);
+      req.then((data: any) => {
+        console.log(data);
+        this.props.navigation.navigate("Payment", {
+          item: data,
+        });
       });
     }
   }
 
   render() {
-    console.log(this.props.route.params);
     return (
       <ScrollView style={[styles.container, { paddingTop: 24 }]}>
         <View style={{ marginHorizontal: 16 }}>
@@ -82,7 +117,9 @@ class BookingScreen extends React.Component<Props> {
             onPress={() => this.showDatePicker()}
             style={styles.datePickerButtonContainer}
           >
-            <Text style={styles.datePickerButtonLabel}>{this.state.date}</Text>
+            <Text style={styles.datePickerButtonLabel}>
+              {this.state.date.toDateString()}
+            </Text>
             <AntDesign name="caretdown" size={16} color="#8E8E8E" />
           </TouchableOpacity>
           <DateTimePickerModal
@@ -94,7 +131,7 @@ class BookingScreen extends React.Component<Props> {
           <RNPickerSelect
             placeholder={{
               label: "Pilih Tiket",
-              value: null,
+              value: 0,
               color: "black",
             }}
             onValueChange={(value) => this.setState({ ticket: value })}
@@ -112,7 +149,7 @@ class BookingScreen extends React.Component<Props> {
           <RNPickerSelect
             placeholder={{
               label: "Pilih Jumlah Orang",
-              value: null,
+              value: 0,
               color: "black",
             }}
             onValueChange={(value) => this.setState({ qty: value })}
@@ -151,7 +188,9 @@ class BookingScreen extends React.Component<Props> {
           >
             <Text style={styles.bookingText}>Tanggal</Text>
             <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <Text style={styles.bookingText}>{this.state.date}</Text>
+              <Text style={styles.bookingText}>
+                {this.state.date.toDateString()}
+              </Text>
             </View>
           </View>
           <View
@@ -200,34 +239,22 @@ class BookingScreen extends React.Component<Props> {
           </View>
         </View>
         <View style={{ paddingHorizontal: 12, marginTop: 48 }}>
-          <Button
-            label="Book"
-            onPress={() => {
-              if (this.state.ticket == 0 || this.state.qty == 0) {
-                Alert.alert(
-                  "Perhatikan!",
-                  "Pastikan Anda mengisi form dengan benar!",
-                  [
-                    {
-                      text: "Ok",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel",
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              } else {
-                this.props.navigation.navigate("Payment", {
-                  ticket: this.state.ticket,
-                  qty: this.state.qty,
-                });
-              }
-            }}
-          />
+          <Button label="Book" onPress={() => this.buyTicket()} />
         </View>
       </ScrollView>
     );
   }
 }
 
-export default BookingScreen;
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth,
+    tickets: state.tickets,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  buyTicket: bindActionCreators(buyTicket, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingScreen);

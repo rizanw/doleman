@@ -14,7 +14,7 @@ export interface User {
   roles: string;
   accessToken?: string;
   geocoding?: string;
-  adminOn?: string;
+  adminOn?: string; 
 }
 
 export const LOGOUT_USER = "auth/LOGOUT_USER";

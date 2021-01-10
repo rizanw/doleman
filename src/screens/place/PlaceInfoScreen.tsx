@@ -64,7 +64,7 @@ class PlaceInfoScreen extends React.Component<Props> {
           <View style={{ flex: 1 }}>
             <Text style={styles.placeInfoTitle}>Rerata Harga</Text>
             <Text style={styles.placeInfoText}>
-              {this.props.route.params?.item.price}
+              {this.props.route.params?.item.rerata_biaya}
             </Text>
           </View>
         </View>

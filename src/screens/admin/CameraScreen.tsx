@@ -1,10 +1,20 @@
 import { Camera } from "expo-camera";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { User } from "../../store/auth/types";
+import { checkIn } from "../../store/wisata/actions";
+import { BarCodeScanner } from "expo-barcode-scanner";
 
-class CameraScreen extends React.Component {
-  state = { cameraPermission: null, cameraStatus: null };
+interface Props {
+  auth: User;
+  checkInByCode: (code: string) => any;
+}
+
+class CameraScreen extends React.Component<Props> {
+  state = { cameraPermission: null, cameraStatus: null, scanned: false };
 
   async componentDidMount() {
     const { status } = await Camera.requestPermissionsAsync();
@@ -13,6 +23,26 @@ class CameraScreen extends React.Component {
       cameraStatus: status,
     });
     console.log("camera status: ", status, this.state.cameraPermission);
+  }
+
+  handleBarCodeScanned({ data }: any) {
+    this.setState({ scanned: true });
+    const req = this.props.checkInByCode(data, this.props.auth.adminOn);
+    req.then((data: { success: boolean; message: string | undefined }) => {
+      console.log(data);
+      if (data.success) {
+        Alert.alert("Berhasil!", "Pengunjung ditambahkan.", [
+          {
+            text: "OK",
+            onPress: () => this.setState({ scanned: false }),
+          },
+        ]);
+        return;
+      }
+      Alert.alert("Gagal!", data.message, [
+        { text: "OK", onPress: () => this.setState({ scanned: false }) },
+      ]);
+    });
   }
 
   render() {
@@ -26,49 +56,27 @@ class CameraScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar style="dark" />
-        <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "rgba(0, 0, 0, 0.6)",
-            }}
-          />
-          <View
-            style={{
-              flex: 2,
-              backgroundColor: "transparent",
-              flexDirection: "row",
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-              }}
-            />
-            <View
-              style={{
-                flex: 5,
-                backgroundColor: "transparent",
-              }}
-            />
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-              }}
-            />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "rgba(0, 0, 0, 0.6)",
-            }}
-          />
-        </Camera>
+        <BarCodeScanner
+          onBarCodeScanned={
+            this.state.scanned
+              ? undefined
+              : this.handleBarCodeScanned.bind(this)
+          }
+          style={StyleSheet.absoluteFillObject}
+        />
       </View>
     );
   }
 }
 
-export default CameraScreen;
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  checkInByCode: bindActionCreators(checkIn, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen);

@@ -1,7 +1,7 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
-import { SimpleLineIcons, Feather } from "@expo/vector-icons"; 
-import DicoverScreen from "../screens/DicoverScreen"; 
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { SimpleLineIcons, Feather } from "@expo/vector-icons";
+import DicoverScreen from "../screens/DicoverScreen";
 import { colors } from "../resources/colors";
 import ProfileStacks from "./ProfileStack";
 

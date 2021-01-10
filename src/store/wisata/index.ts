@@ -1,4 +1,5 @@
 import {
+  CHECK_IN,
   FETCH_BY_ID,
   FETCH_NEARBY,
   FETCH_STATISTIC,
@@ -44,7 +45,7 @@ const initialState: Wisata = {
     coordinate: [],
     type: "",
   },
-  images: [""], 
+  images: [""],
   in: 0,
   total: 0,
   capacity: 0,
@@ -65,6 +66,13 @@ export function wisataReducer(
         capacity: action.payload.capacity,
       };
     case INC_STATISTIC:
+      return {
+        ...state,
+        in: action.payload.in,
+        total: action.payload.total,
+        capacity: action.payload.capacity,
+      };
+    case CHECK_IN:
       return {
         ...state,
         in: action.payload.in,

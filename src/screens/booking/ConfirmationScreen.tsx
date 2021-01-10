@@ -1,4 +1,8 @@
-import { CommonActions, NavigationProp } from "@react-navigation/native";
+import {
+  CommonActions,
+  NavigationProp,
+  RouteProp,
+} from "@react-navigation/native";
 import React from "react";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import Button from "../../components/Button";
@@ -7,6 +11,7 @@ import { styles } from "../../resources/styles";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 class ConfirmationScreen extends React.Component<Props> {
@@ -68,7 +73,7 @@ class ConfirmationScreen extends React.Component<Props> {
               textAlign: "center",
             }}
           >
-            Nomor tiket anda: 26182
+            Nomor tiket anda: {this.props.route.params?.code}
           </Text>
         </View>
         <View style={{ paddingHorizontal: 12, marginTop: 48 }}>
@@ -85,19 +90,17 @@ class ConfirmationScreen extends React.Component<Props> {
           <Button
             label="Tiket Saya"
             onPress={() => {
-              this.props.navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: "MainTab" }], 
-                })
-              );
-              this.props.navigation.dispatch(
-                CommonActions.reset({
-                  index: 1,
-                  routes: [{ name: "ProfileStack" }], 
-                })
-              );
-              this.props.navigation.navigate("MyTickets");
+              this.props.navigation.reset({
+                index: 1,
+                routes: [
+                  {
+                    name: "MainTab",
+                    state: {
+                      routes: [{ name: "ProfileStack" }, { name: "MyTickets" }],
+                    },
+                  },
+                ],
+              });
             }}
           />
         </View>

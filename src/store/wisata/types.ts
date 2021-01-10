@@ -17,8 +17,9 @@ export interface Wisata {
     type: string;
   };
   images?: [string];
-  distance?: number;
+  rerata_biaya: string;
   crowdedness?: number;
+  distance?: number;
   in?: number;
   total?: number;
   capacity?: number;
@@ -29,6 +30,7 @@ export const FETCH_BY_ID = "wisata/FETCH_BY_ID";
 export const UPDATE_DISTANCE = "wisata/UPDATE_DISTANCE";
 export const FETCH_STATISTIC = "wisata/statistic/FETCH_STATISTIC";
 export const INC_STATISTIC = "wisata/statistic/INC_STATISTIC";
+export const CHECK_IN = "wisata/ticket/CHECKIN";
 
 export interface WisataList {
   wisatas: Wisata[];
@@ -59,7 +61,13 @@ interface IncStatistic {
   payload: Wisata;
 }
 
+interface CheckIn {
+  type: typeof CHECK_IN;
+  payload: Wisata;
+}
+
 export type WisataActionState =
+  | CheckIn
   | FetchNearby
   | FetchStatistic
   | IncStatistic

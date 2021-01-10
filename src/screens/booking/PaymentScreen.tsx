@@ -9,21 +9,80 @@ import { styles } from "../../resources/styles";
 import RNPickerSelect from "react-native-picker-select";
 import { AntDesign } from "@expo/vector-icons";
 import Button from "../../components/Button";
-import { AuthState } from "../../store/auth/types";
 import { connect } from "react-redux";
-import { updateAuth } from "../../store/auth/actions";
 import { bindActionCreators } from "redux";
+import { User } from "../../store/auth/types";
+import { updateStatusTicket } from "../../store/ticket/actions";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
-  authState: AuthState;
+  auth: User;
+  updateStatusTicket: (code: string, status: string) => any;
 }
 
 class PaymentScreen extends React.Component<Props> {
   state = {
     paymentGateway: null,
+    price: 0,
+    quantity: 0,
   };
+
+  componentDidMount() {
+    this.setState({
+      price: this.props.route.params?.item.price,
+      quantity: this.props.route.params?.item.quantity,
+    });
+  }
+
+  pay() {
+    if (this.state.paymentGateway == null) {
+      Alert.alert(
+        "Perhatikan!",
+        "Pilih Metode Pembayaran dengan benar!",
+        [
+          {
+            text: "Ok",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        "Konfirmasi Ulang",
+        "Apakah anda yakin akan membayar dengan " +
+          this.state.paymentGateway +
+          " ?",
+        [
+          {
+            text: "Tidak",
+            style: "default",
+          },
+          {
+            text: "Iya",
+            style: "cancel",
+            onPress: () => {
+              const req: any = this.props.updateStatusTicket(
+                this.props.route.params?.item.code,
+                "CONFIRMED"
+              );
+              req.then((data: any) => {
+                console.log(data);
+                this.props.navigation.navigate("Confirmation", {
+                  item: data,
+                  code: this.props.route.params?.item.code,
+                });
+              });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+
   render() {
     return (
       <ScrollView style={[styles.container]}>
@@ -39,20 +98,17 @@ class PaymentScreen extends React.Component<Props> {
           >
             <Text style={styles.bookingText}>
               {"Rp. " +
-                this.props.route.params?.ticket
+                this.state.price
                   .toString()
                   .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") +
                 " x " +
-                this.props.route.params?.qty +
+                this.state.quantity +
                 " orang"}
             </Text>
             <View style={{ flex: 1, alignItems: "flex-end" }}>
               <Text style={styles.bookingText}>
                 {"Rp. " +
-                  (
-                    this.props.route.params?.ticket *
-                    this.props.route.params?.qty
-                  )
+                  (this.state.price * this.state.quantity)
                     .toString()
                     .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}
               </Text>
@@ -70,10 +126,7 @@ class PaymentScreen extends React.Component<Props> {
             <View style={{ flex: 1, alignItems: "flex-end" }}>
               <Text style={styles.bookingText}>
                 {"Rp. " +
-                  (
-                    this.props.route.params?.ticket *
-                    this.props.route.params?.qty
-                  )
+                  (this.state.price * this.state.quantity)
                     .toString()
                     .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}
               </Text>
@@ -107,64 +160,7 @@ class PaymentScreen extends React.Component<Props> {
           />
         </View>
         <View style={{ paddingHorizontal: 12, marginTop: 48 }}>
-          <Button
-            label="Bayar"
-            onPress={() => {
-              if (this.state.paymentGateway == null) {
-                Alert.alert(
-                  "Perhatikan!",
-                  "Pilih Metode Pembayaran dengan benar!",
-                  [
-                    {
-                      text: "Ok",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel",
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              } else {
-                Alert.alert(
-                  "Konfirmasi Ulang",
-                  "Apakah anda yakin akan membayar dengan " +
-                    this.state.paymentGateway +
-                    " ?",
-                  [
-                    {
-                      text: "Tidak",
-                      style: "default",
-                    },
-                    {
-                      text: "Iya",
-                      style: "cancel",
-                      onPress: () => {
-                        if (this.props.authState.isLoggedIn) {
-                          this.props.navigation.navigate("Confirmation");
-                        } else {
-                          this.props.navigation.dispatch(
-                            CommonActions.reset({
-                              index: 0,
-                              routes: [{ name: "MainTab" }],
-                            })
-                          );
-                          this.props.navigation.dispatch(
-                            CommonActions.reset({
-                              index: 1,
-                              routes: [{ name: "ProfileStack" }],
-                            })
-                          );
-                          this.props.navigation.navigate("LoginTab", {
-                            booking: true,
-                          });
-                        }
-                      },
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              }
-            }}
-          />
+          <Button label="Bayar" onPress={() => this.pay()} />
         </View>
       </ScrollView>
     );
@@ -173,12 +169,12 @@ class PaymentScreen extends React.Component<Props> {
 
 const mapStateToProps = (state: any) => {
   return {
-    authState: state.authState,
+    auth: state.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateAuth: bindActionCreators(updateAuth, dispatch),
+  updateStatusTicket: bindActionCreators(updateStatusTicket, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentScreen);

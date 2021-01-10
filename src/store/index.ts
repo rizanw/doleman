@@ -5,11 +5,12 @@ import thunk from "redux-thunk";
 import { authReducer } from "./auth";
 import { checkLoggedInMiddleware } from "./middleware";
 import { wisataListReducer, wisataReducer } from "./wisata";
+import { ticketListReducer } from "./ticket";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth", "wisata"],
+  whitelist: ["auth", "wisata", "tickets"],
   blacklist: [],
 };
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   wisatas: wisataListReducer,
   wisata: wisataReducer,
+  tickets: ticketListReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

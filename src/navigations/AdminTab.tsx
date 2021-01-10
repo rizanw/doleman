@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -28,14 +28,6 @@ import { Wisata } from "../store/wisata/types";
 import { NavigationProp } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const DATA = [
-  {
-    masuk: 120,
-    keluar: 20,
-    maks: 1000,
-  },
-];
-
 const Tab = createMaterialTopTabNavigator();
 
 const wait = (timeout: number) => {
@@ -58,17 +50,34 @@ export default function AdminTabs({ navigation }: Props) {
   const [refreshing, setRefreshing] = React.useState(false);
   const dispatch = useDispatch();
 
+  const forceRender = (data: any) => {
+    console.log(data);
+    setMasuk(data.in);
+    setKeluar(data.total - data.in);
+    setMaks(data.capacity);
+    setPercentage((masuk / maks) * 100);
+  };
+
+  useEffect(() => {
+    setMasuk(wisata.in ? wisata.in : 0);
+    setKeluar(wisata.total ? wisata.total - masuk : 0);
+    setMaks(wisata.capacity ? wisata.capacity : 0);
+    setPercentage((masuk / maks) * 100);
+  }, []);
+
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     //@ts-ignore
     let req = await dispatch(fetchWisata(user.adminOn));
     //@ts-ignore
-    let req1 = await dispatch(fetchStatistic(user.adminOn));
-    setMasuk(wisata.in ? wisata.in : 0);
-    setKeluar(wisata.total ? wisata.total - masuk : 0);
-    setMaks(wisata.capacity ? wisata.capacity : 0);
-    setPercentage((masuk / maks) * 100);
-    console.log(percentage);
+    let req1: any = dispatch(fetchStatistic(user.adminOn));
+    req1.then((data: any) => {
+      setMasuk(data.in);
+      setKeluar(data.total - data.in);
+      setMaks(data.capacity);
+      setPercentage((masuk / maks) * 100);
+      console.log(percentage);
+    });
 
     //@ts-ignore
     if (req.success) {
@@ -128,7 +137,7 @@ export default function AdminTabs({ navigation }: Props) {
         }
       >
         <Image
-          source={require("../../assets/jatim1.jpg")}
+          source={{ uri: wisata.images[1] }}
           style={{ width: "100%", height: 160, resizeMode: "cover" }}
         />
         <TouchableWithoutFeedback
@@ -137,8 +146,8 @@ export default function AdminTabs({ navigation }: Props) {
         >
           <View
             style={{
-              flexDirection: "row", 
-              alignItems: "center", 
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             <Text style={[styles.ticketTitle, { marginVertical: 10, flex: 1 }]}>
@@ -228,10 +237,20 @@ export default function AdminTabs({ navigation }: Props) {
             inactiveTintColor: colors.BITTERSWEET,
           }}
         >
-          <Tab.Screen name="Direct" component={DirectScreen} options={{}} />
-          <Tab.Screen name="Online" component={OnlineScreen} />
+          <Tab.Screen
+            name="Direct"
+            component={DirectScreen}
+            initialParams={{ onRefresh: forceRender }}
+          />
+          <Tab.Screen
+            name="Online"
+            component={OnlineScreen}
+            initialParams={{ onRefresh: forceRender }}
+          />
         </Tab.Navigator>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
+
+//91D966

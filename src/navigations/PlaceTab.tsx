@@ -1,6 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 import Button from "../components/Button";
 import { colors } from "../resources/colors";
 import { styles } from "../resources/styles";
@@ -9,6 +9,9 @@ import PlaceInfoScreen from "../screens/place/PlaceInfoScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { User } from "../store/auth/types";
+import { useSelector } from "react-redux";
+import { AppState } from "../store";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,6 +21,8 @@ interface Props {
 }
 
 export default function PlaceTabs({ navigation, route }: Props) {
+  const user: User = useSelector((state: AppState) => state.auth);
+
   return (
     <ScrollView
       style={{ backgroundColor: "white", flex: 1 }}
@@ -56,9 +61,22 @@ export default function PlaceTabs({ navigation, route }: Props) {
           }}
         >
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Booking", { item: route.params?.item })
-            }
+            onPress={() => {
+              if (route.params?.item.rerata_harga == "Gratis")
+                return Alert.alert(
+                  "Info",
+                  "Belum dapat memesan tiket di tempat wisata ini."
+                );
+              if (!user.accessToken) {
+                return Alert.alert(
+                  "Perhatikan!",
+                  "Lakukan login atau registrasi sebelum melakukan booking."
+                );
+              }
+              return navigation.navigate("Booking", {
+                item: route.params?.item,
+              });
+            }}
             style={{
               borderColor: colors.BITTERSWEET,
               borderWidth: 2,

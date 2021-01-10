@@ -1,3 +1,4 @@
+import { RouteProp } from "@react-navigation/native";
 import React from "react";
 import { Alert, View } from "react-native";
 import { connect } from "react-redux";
@@ -8,13 +9,15 @@ import { User } from "../../store/auth/types";
 import { increamentStatistic } from "../../store/wisata/actions";
 
 interface Props {
+  route: RouteProp<any, any>;
   auth: User;
-  incPengunjung: (id: string | undefined) => {};
+  incPengunjung: (id: string | undefined) => any;
 }
 
 class DirectScreen extends React.Component<Props> {
-  async addPengunjung() {
-    await this.props.incPengunjung(this.props.auth.adminOn);
+  addPengunjung() {
+    const req: any = this.props.incPengunjung(this.props.auth.adminOn);
+    req.then((data: any) => this.props.route.params?.onRefresh(data));
     Alert.alert("Berhasil!", "Pengunjung ditambahkan.");
   }
 

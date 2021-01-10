@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
-import { WISATA } from "../../resources/api";
+import { TICKET, WISATA } from "../../resources/api";
 import { fetchPost } from "../../utils/fetch";
 import {
+  CHECK_IN,
   FETCH_BY_ID,
   FETCH_NEARBY,
   FETCH_STATISTIC,
@@ -36,6 +37,21 @@ export function increamentStatistic(id: string) {
   return async (dispatch: Dispatch) => {
     const res = await fetchPost(WISATA.addStatisticById, { wisata: id });
     dispatch({ type: INC_STATISTIC, payload: res });
+    return res;
+  };
+}
+
+export function checkIn(code: string, wisata: string) {
+  return async (dispatch: Dispatch) => {
+    console.log({
+      code: code.toLocaleUpperCase(),
+      wisata: wisata,
+    });
+    const res = await fetchPost(TICKET.check, {
+      code: code.toLocaleUpperCase(),
+      wisata: wisata,
+    });
+    if (res.success) dispatch({ type: CHECK_IN, payload: res.data });
     return res;
   };
 }

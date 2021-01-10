@@ -7,6 +7,7 @@ const BASE = {
   auth: `${API_URL}/auth`,
   user: `${API_URL}/user`,
   wisata: `${API_URL}/wisata`,
+  ticket: `${API_URL}/ticket`,
 };
 
 //API End Points
@@ -22,4 +23,12 @@ export const WISATA = {
   fetchById: `${BASE.wisata}/`,
   fetchStatisticById: `${BASE.wisata}/statistic`,
   addStatisticById: `${BASE.wisata}/statistic/add`,
+};
+
+export const TICKET = {
+  myTickets: `${BASE.ticket}/my`,
+  buy: `${BASE.ticket}/buy`,
+  findByCode: `${BASE.ticket}/code`,
+  check: `${BASE.ticket}/check`,
+  updateStatus: `${BASE.ticket}/confirm`,
 };

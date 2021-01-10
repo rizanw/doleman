@@ -32,7 +32,7 @@ export const authReducer = (
       return {
         ...state,
         name: action.payload.name,
-        email: action.payload.name,
+        email: action.payload.email,
         roles: action.payload.roles[0],
         accessToken: action.payload.accessToken,
       };
@@ -40,7 +40,7 @@ export const authReducer = (
       return {
         ...state,
         name: action.payload.name,
-        email: action.payload.name,
+        email: action.payload.email,
         roles: action.payload.roles[0],
         accessToken: action.payload.accessToken,
         adminOn: action.payload.adminOn,
